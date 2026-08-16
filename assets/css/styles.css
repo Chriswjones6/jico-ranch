@@ -738,3 +738,54 @@ html.js .reveal.in{opacity:1;transform:none}
 .hero__in .dual{max-width:none}
 .hero__in .dual__lead{font-size:clamp(21px,3vw,40px)}
 .hero__in .dual__main{font-size:clamp(36px,7vw,86px)}
+
+/* ==========================================================================
+   SPONSOR TIERS
+   Two deliberately different products: an unlimited membership that supports
+   the whole herd, and a genuinely exclusive one-per-animal sponsorship.
+   The exclusivity is the premium — see .tier__flag.
+   ========================================================================== */
+.tiers{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start}
+@media(max-width:820px){.tiers{grid-template-columns:1fr}}
+
+.tier{
+  position:relative;display:flex;flex-direction:column;gap:14px;
+  background:var(--paper);border:1px solid var(--line);border-radius:var(--r-lg);
+  padding:clamp(26px,3vw,38px);
+}
+.tier--featured{border:2px solid var(--rust);box-shadow:0 14px 40px rgba(166,71,46,.13)}
+.tier__flag{
+  position:absolute;top:0;right:clamp(22px,3vw,34px);transform:translateY(-50%);
+  background:var(--rust);color:var(--bone);border-radius:999px;padding:7px 16px;
+  font-size:11px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;white-space:nowrap;
+}
+.tier__name{
+  font-family:var(--f-sans);font-size:15px;font-weight:600;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--rust);
+}
+.tier--herd .tier__name{color:var(--moss)}
+.tier__price{font-family:var(--f-display);font-size:clamp(34px,4.4vw,48px);font-weight:600;line-height:1}
+.tier__price small{font-family:var(--f-sans);font-size:14px;font-weight:400;color:var(--ink-3);letter-spacing:.04em}
+.tier__pitch{font-size:16px;color:var(--ink-3)}
+.tier__list{display:grid;gap:11px;margin-top:2px}
+.tier__list li{display:flex;gap:12px;align-items:flex-start;font-size:15.5px}
+.tier__list .ic{width:18px;height:18px;margin-top:3px;fill:var(--sage)}
+.tier--featured .tier__list .ic{fill:var(--rust)}
+.tier .btn{margin-top:auto}
+
+/* the honesty block — what sponsorship is and isn't */
+.sponsor-notes{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:2px;
+  margin-top:26px;background:var(--line-soft);
+  border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;
+}
+.sponsor-note{background:var(--bone);padding:22px}
+.sponsor-note__t{
+  font-size:12px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--rust);margin-bottom:9px;
+}
+.sponsor-note p{font-size:14.5px;color:var(--ink-3);line-height:1.6}
+
+/* 7 items in a 3-up grid leaves a lone tile on the last row — don't hang a
+   right border off it. */
+.caps .cap:last-child{border-right:0}
