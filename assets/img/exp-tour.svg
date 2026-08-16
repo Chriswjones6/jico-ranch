@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 750" width="1000" height="750" role="img" aria-label="Guided ranch tour placeholder">
+  <title>Guided ranch tour — placeholder</title>
+  <rect width="1000" height="750" fill="#E6DAC7"/>
+  <circle cx="780" cy="195" r="82" fill="#C9B295" opacity=".35"/>
+  <path d="M0 465 Q 250 375 500 450 T 1000 420 V 750 H0 Z" fill="#41512F" opacity=".55"/>
+  <path d="M0 570 Q 300 495 620 562 T 1000 540 V 750 H0 Z" fill="#41512F" opacity=".8"/>
+  <g font-family="Jost, Futura, Century Gothic, sans-serif" text-anchor="middle" fill="#1A1714">
+    <text x="500" y="369" font-size="39" font-weight="600" letter-spacing="6.2">GUIDED RANCH TOUR</text>
+    <text x="500" y="424" font-size="23" letter-spacing="3.9" opacity=".62">PLACEHOLDER PHOTO</text>
+  </g>
+</svg>

@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 1000" width="1400" height="1000" role="img" aria-label="Livestock in the pasture">
+  <title>The animals — hero band placeholder</title>
+  <!-- Full-bleed band background. Text-free on purpose: the headline sits on top.
+       Replace with a real wide photo of the barnyard or the herd. -->
+  <defs>
+    <linearGradient id="aSky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#7E6A50"/>
+      <stop offset="38%"  stop-color="#C0A17C"/>
+      <stop offset="62%"  stop-color="#9C8259"/>
+      <stop offset="100%" stop-color="#4A4230"/>
+    </linearGradient>
+    <radialGradient id="aGlow" cx="30%" cy="26%" r="34%">
+      <stop offset="0%"   stop-color="#F0DCB8" stop-opacity=".8"/>
+      <stop offset="100%" stop-color="#F0DCB8" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1400" height="1000" fill="url(#aSky)"/>
+  <rect width="1400" height="1000" fill="url(#aGlow)"/>
+
+  <!-- treeline -->
+  <path d="M0 470 Q 180 442 330 462 T 660 452 T 1020 468 T 1400 450 V1000 H0 Z" fill="#463F2C" opacity=".5"/>
+
+  <!-- barn silhouette -->
+  <g fill="#33301F" opacity=".82">
+    <path d="M760 560 L900 470 L1040 560 Z"/>
+    <rect x="760" y="552" width="280" height="200"/>
+    <rect x="872" y="650" width="56" height="102" fill="#5B5136"/>
+  </g>
+  <!-- silo -->
+  <g fill="#3B3524" opacity=".8">
+    <rect x="1078" y="500" width="72" height="252"/>
+    <path d="M1078 506 A36 36 0 0 1 1150 506 Z"/>
+  </g>
+
+  <!-- pasture -->
+  <path d="M0 620 Q 340 578 700 618 T 1400 606 V1000 H0 Z" fill="#54492F" opacity=".9"/>
+  <path d="M0 750 Q 430 700 880 748 T 1400 736 V1000 H0 Z" fill="#3E3722"/>
+
+  <!-- grazing stock, read as shapes at distance -->
+  <g fill="#241F16" opacity=".72">
+    <ellipse cx="250" cy="700" rx="52" ry="26"/><rect x="212" y="700" width="12" height="30" rx="5"/><rect x="272" y="700" width="12" height="30" rx="5"/>
+    <ellipse cx="430" cy="726" rx="44" ry="22"/><rect x="398" y="726" width="11" height="27" rx="5"/><rect x="450" y="726" width="11" height="27" rx="5"/>
+    <ellipse cx="612" cy="694" rx="38" ry="19"/><rect x="586" y="694" width="10" height="24" rx="4"/><rect x="628" y="694" width="10" height="24" rx="4"/>
+  </g>
+
+  <!-- fence line -->
+  <g stroke="#1F1B14" stroke-width="7" opacity=".55" stroke-linecap="round">
+    <path d="M60 880 V800"/><path d="M300 866 V790"/><path d="M540 852 V782"/>
+    <path d="M780 842 V776"/><path d="M1020 834 V770"/><path d="M1300 826 V764"/>
+    <path d="M60 820 H1300" stroke-width="6"/>
+    <path d="M60 856 H1300" stroke-width="6"/>
+  </g>
+
+  <path d="M0 918 Q 480 878 1000 914 T 1400 906 V1000 H0 Z" fill="#2C2719" opacity=".92"/>
+</svg>

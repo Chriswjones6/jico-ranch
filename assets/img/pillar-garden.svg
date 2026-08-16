@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 1000" width="1400" height="1000" role="img" aria-label="Market garden rows">
+  <title>The garden — hero band placeholder</title>
+  <!-- Full-bleed band background. Text-free on purpose: the headline sits on top.
+       Replace with a real wide photo down the garden rows. -->
+  <defs>
+    <linearGradient id="gSky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#6E6A4C"/>
+      <stop offset="34%"  stop-color="#B6B282"/>
+      <stop offset="52%"  stop-color="#7E8A52"/>
+      <stop offset="100%" stop-color="#33401F"/>
+    </linearGradient>
+    <radialGradient id="gGlow" cx="66%" cy="22%" r="32%">
+      <stop offset="0%"   stop-color="#EDE6BE" stop-opacity=".75"/>
+      <stop offset="100%" stop-color="#EDE6BE" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1400" height="1000" fill="url(#gSky)"/>
+  <rect width="1400" height="1000" fill="url(#gGlow)"/>
+
+  <!-- treeline behind the field -->
+  <path d="M0 452 Q 200 424 360 444 T 720 436 T 1080 450 T 1400 432 V1000 H0 Z" fill="#37421F" opacity=".55"/>
+
+  <!-- greenhouse in the distance -->
+  <g fill="#48542B" opacity=".7">
+    <path d="M120 500 L214 452 L308 500 Z"/>
+    <rect x="120" y="494" width="188" height="96"/>
+  </g>
+
+  <!-- field plane -->
+  <path d="M0 560 Q 360 524 720 558 T 1400 548 V1000 H0 Z" fill="#4C5A2A"/>
+
+  <!-- planted rows converging toward the horizon -->
+  <g stroke="#2E3A16" stroke-linecap="round" opacity=".72">
+    <path d="M-140 1000 L560 592" stroke-width="26"/>
+    <path d="M140 1000 L646 592"  stroke-width="24"/>
+    <path d="M420 1000 L732 592"  stroke-width="22"/>
+    <path d="M700 1000 L818 592"  stroke-width="20"/>
+    <path d="M980 1000 L904 592"  stroke-width="20"/>
+    <path d="M1260 1000 L990 592" stroke-width="22"/>
+    <path d="M1540 1000 L1076 592" stroke-width="24"/>
+  </g>
+  <!-- lighter foliage catching light along each row -->
+  <g stroke="#7E9247" stroke-linecap="round" opacity=".55">
+    <path d="M-120 1000 L566 600" stroke-width="9"/>
+    <path d="M160 1000 L652 600"  stroke-width="8"/>
+    <path d="M440 1000 L738 600"  stroke-width="8"/>
+    <path d="M720 1000 L824 600"  stroke-width="7"/>
+    <path d="M1000 1000 L910 600" stroke-width="7"/>
+    <path d="M1280 1000 L996 600" stroke-width="8"/>
+  </g>
+
+  <path d="M0 930 Q 460 896 980 928 T 1400 920 V1000 H0 Z" fill="#26301A" opacity=".9"/>
+</svg>

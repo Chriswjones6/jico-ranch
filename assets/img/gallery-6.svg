@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 900" width="900" height="900" role="img" aria-label="Ranch photo 6 placeholder">
+  <title>Ranch photo 6 — placeholder</title>
+  <rect width="900" height="900" fill="#E8DCC9"/>
+  <circle cx="702" cy="234" r="99" fill="#C9B295" opacity=".35"/>
+  <path d="M0 558 Q 225 450 450 540 T 900 504 V 900 H0 Z" fill="#A6472E" opacity=".55"/>
+  <path d="M0 684 Q 270 594 558 675 T 900 648 V 900 H0 Z" fill="#A6472E" opacity=".8"/>
+  <g font-family="Jost, Futura, Century Gothic, sans-serif" text-anchor="middle" fill="#1A1714">
+    <text x="450" y="443" font-size="46" font-weight="600" letter-spacing="7.4">RANCH PHOTO 6</text>
+    <text x="450" y="508" font-size="28" letter-spacing="4.6" opacity=".62">PLACEHOLDER PHOTO</text>
+  </g>
+</svg>

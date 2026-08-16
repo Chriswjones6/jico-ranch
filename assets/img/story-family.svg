@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" width="1200" height="900" role="img" aria-label="The family placeholder">
+  <title>The family — placeholder</title>
+  <rect width="1200" height="900" fill="#E4D8C6"/>
+  <path d="M0 630 Q 600 558 1200 630 V 900 H0 Z" fill="#A6472E" opacity=".6"/>
+  <path d="M396 494 L600 396 L804 494 Z" fill="#C9B295" opacity=".85"/>
+  <rect x="396" y="488" width="408" height="214" fill="#C9B295" opacity=".7"/>
+  <rect x="559" y="586" width="82" height="116" fill="#E4D8C6" opacity=".8"/>
+  <g font-family="Jost, Futura, Century Gothic, sans-serif" text-anchor="middle" fill="#1A1714">
+    <text x="600" y="443" font-size="46" font-weight="600" letter-spacing="7.4">THE FAMILY</text>
+    <text x="600" y="508" font-size="28" letter-spacing="4.6" opacity=".62">PLACEHOLDER PHOTO</text>
+  </g>
+</svg>

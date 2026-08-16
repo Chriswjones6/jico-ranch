@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 700" width="900" height="700" role="img" aria-label="Pigs placeholder">
+  <title>Pigs — placeholder</title>
+  <rect width="900" height="700" fill="#E8DCC9"/>
+  <circle cx="702" cy="182" r="77" fill="#C9B295" opacity=".35"/>
+  <path d="M0 434 Q 225 350 450 420 T 900 392 V 700 H0 Z" fill="#6E8259" opacity=".55"/>
+  <path d="M0 532 Q 270 462 558 525 T 900 504 V 700 H0 Z" fill="#6E8259" opacity=".8"/>
+  <g font-family="Jost, Futura, Century Gothic, sans-serif" text-anchor="middle" fill="#1A1714">
+    <text x="450" y="345" font-size="36" font-weight="600" letter-spacing="5.8">PIGS</text>
+    <text x="450" y="395" font-size="22" letter-spacing="3.6" opacity=".62">PLACEHOLDER PHOTO</text>
+  </g>
+</svg>
