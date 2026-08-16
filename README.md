@@ -61,6 +61,10 @@ drop in PNGs and change the two `src` attributes in `index.html` (header + foote
 The "JICO / RANCH" wordmark next to the mark is live HTML text, so it stays crisp.
 
 ## TODO before launch
+- [ ] **Remove the search-engine gate.** `index.html` has
+      `<meta name="robots" content="noindex, nofollow">` near the top so Google won't index
+      placeholder hours and prices. Delete that one line when the real details are in —
+      the site is otherwise fully live and shareable.
 - [ ] **Replace the logo files with the original artwork.**
 - [ ] Confirm the phone number — currently the JICO line `301-542-2542`. Give the ranch its own if it has one.
 - [ ] Confirm the public email — `info@jicoranch.com` is a placeholder, in `index.html` and in `main.js` (`EMAIL`).
