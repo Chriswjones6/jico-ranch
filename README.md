@@ -14,7 +14,7 @@ Type: **Fraunces** (display serif) + **Jost** (geometric sans, matches the JICO 
 index.html                  single page, all sections
 assets/css/styles.css       full style system
 assets/js/main.js           data block + all behavior
-assets/img/                 logo, favicon, placeholder photos (SVG)
+assets/img/                 logo (real artwork, PNG), favicon, placeholder photos (SVG)
 assets/video/               hero clips go here (empty for now)
 ```
 
@@ -54,18 +54,31 @@ Every image in `assets/img/` is a generated SVG placeholder. Drop a real photo i
 the **same filename** (`.jpg` is fine — update the `src` extension) and it appears. The
 hero still is `hero-ranch.svg`, referenced inline in the `.hero__bg` style.
 
-**The logo** is a hand-built recreation of the JR branding-iron mark, not the original
-artwork. To use the real thing, overwrite `assets/img/logo-mark-ink.svg` and
-`logo-mark-cream.svg` (dark version for light backgrounds, cream version for dark) — or
-drop in PNGs and change the two `src` attributes in `index.html` (header + footer).
-The "JICO / RANCH" wordmark next to the mark is live HTML text, so it stays crisp.
+**The logo** is the real JICO Ranch artwork. Everything in `assets/img/logo-*.png` and
+`favicon.png` is derived from the original file by keying the tan background out on
+luminance, so the mark keeps its cast-iron texture and bevel on a transparent background.
+
+| File | Use |
+|---|---|
+| `logo-lockup-h.png` | horizontal lockup, dark — header |
+| `logo-lockup-h-cream.png` | horizontal lockup, cream — footer / dark grounds |
+| `logo-lockup.png` / `-cream.png` | the original stacked lockup |
+| `logo-mark.png` / `-cream.png` | the JR mark on its own |
+| `favicon.png` | cream mark on a rounded ink tile |
+| `og-card.png` | 1200x630 social preview card |
+
+To regenerate them all from a new source file, rerun the build script with the new path —
+it re-measures the three bands (mark, JICO, RANCH) rather than assuming fixed crops.
+
+The horizontal lockup is composed from the original artwork: the stacked version is too
+tall for an 82px header, so the mark sits left of the wordmark. The stacked original is
+kept in `logo-lockup.png` if you ever want it.
 
 ## TODO before launch
 - [ ] **Remove the search-engine gate.** `index.html` has
       `<meta name="robots" content="noindex, nofollow">` near the top so Google won't index
       placeholder hours and prices. Delete that one line when the real details are in —
       the site is otherwise fully live and shareable.
-- [ ] **Replace the logo files with the original artwork.**
 - [ ] Confirm the phone number — currently the JICO line `301-542-2542`. Give the ranch its own if it has one.
 - [ ] Confirm the public email — `info@jicoranch.com` is a placeholder, in `index.html` and in `main.js` (`EMAIL`).
 - [ ] Fill in the real town/county, address and directions (`#visit`, "Where we are") and the JSON-LD `address` block.
