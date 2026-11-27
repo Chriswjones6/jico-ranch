@@ -15,7 +15,8 @@ Type: **Fraunces** (display serif) + **Jost** (geometric sans, matches the JICO 
 index.html                  single page, all sections
 assets/css/styles.css       full style system
 assets/js/main.js           data block + all behavior
-assets/img/                 logo (real artwork, PNG), favicon, placeholder photos (SVG)
+assets/img/                 logo (real artwork, PNG), favicon, stand-in photos (JPG)
+                            + PHOTO-CREDITS.md listing every photo's source
 assets/video/               hero clips go here (empty for now)
 ```
 
@@ -71,10 +72,22 @@ starts with the first crop" panel; adding one hides it automatically. A filled-i
 sits at the bottom of `main.js` as `HARVEST_EXAMPLE` — copy it to the top of `JOURNAL`
 and delete the comment block.
 
-## Replacing the placeholders
-Every image in `assets/img/` is a generated SVG placeholder. Drop a real photo in with
-the **same filename** (`.jpg` is fine — update the `src` extension) and it appears. The
-hero still is `hero-ranch.svg`, referenced inline in the `.hero__bg` style.
+## Replacing the stand-in photos
+Every photo in `assets/img/` is a real photograph of **somebody else's** farm, pulled
+from Unsplash under the [Unsplash License](https://unsplash.com/license) — free for
+commercial use, no attribution required. They are there so the site reads as a working
+ranch instead of a wireframe while we wait on our own photography.
+
+`assets/img/PHOTO-CREDITS.md` lists every file, what it shows and which Unsplash photo
+it came from. `tools/fetch-photos.py` holds the manifest and re-downloads the lot
+(`--force`); it crops server-side, re-encodes locally at quality 78 and strips camera
+metadata, so nothing ships oversized.
+
+**To swap in a real JICO Ranch photo:** drop a file with the same name into
+`assets/img/` and delete its row from `PHOTO-CREDITS.md`. Nothing in the markup
+changes. Sizes the manifest uses: bands 2000x1125, the land ribbon 1400x933, cards
+1200x800, gallery tiles 900x900. The hero is `hero-ranch.jpg`, referenced inline in
+the `.hero__bg` style rather than as an `<img>`.
 
 **The logo** is the real JICO Ranch artwork. Everything in `assets/img/logo-*.png` and
 `favicon.png` is derived from the original file by keying the tan background out on
@@ -107,7 +120,9 @@ kept in `logo-lockup.png` if you ever want it.
 - [ ] Set the four stat numbers in the `#about` stats block — they're `data-count="0"` and render as `00` until you do.
 - [ ] Confirm hours, admission price, and every experience price. All currently plausible placeholders.
 - [ ] Prune the "everything else" grid down to what the ranch actually offers.
-- [ ] Real photos throughout — **do not fabricate reviews or testimonials** if you add a proof section.
+- [ ] Real photos throughout — every `.jpg` in `assets/img/` is somebody else's farm.
+      See `assets/img/PHOTO-CREDITS.md`. **Do not fabricate reviews or testimonials**
+      if you add a proof section.
 - [ ] Contact + signup forms: create a free Formspree form and paste the endpoint into both
       `<form id="contactForm" action="">` and `<form id="signupForm" action="">`. Until then
       they fall back to opening an email.

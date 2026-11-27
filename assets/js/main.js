@@ -63,21 +63,21 @@ const HERO_CLIPS = [
 /* --- The animal roster ---------------------------------------------------
    photo files live in assets/img/. Add, remove or reorder freely. */
 const ANIMALS = [
-  { name:"The Goat Crew", species:"Nigerian dwarf goats", img:"animal-goats.svg",
+  { name:"The Goat Crew", species:"Nigerian dwarf goats", img:"animal-goats.jpg",
     fact:"First to the fence and shameless about it. They'll check every pocket you own." },
-  { name:"The Herd",      species:"Cattle",               img:"animal-cattle.svg",
+  { name:"The Herd",      species:"Cattle",               img:"animal-cattle.jpg",
     fact:"Out on the back pasture. Visited from the fence line or on a guided walk." },
-  { name:"The Flock",     species:"Laying hens & ducks",  img:"animal-chickens.svg",
+  { name:"The Flock",     species:"Laying hens & ducks",  img:"animal-chickens.jpg",
     fact:"Between them they lay most of what ends up at the stand each morning." },
-  { name:"The Horses",    species:"Saddle horses",        img:"animal-horses.svg",
+  { name:"The Horses",    species:"Saddle horses",        img:"animal-horses.jpg",
     fact:"Retired from real work and enjoying it. Say hello, but feeding is staff-only." },
-  { name:"The Pigs",      species:"Pasture-raised hogs",  img:"animal-pigs.svg",
+  { name:"The Pigs",      species:"Pasture-raised hogs",  img:"animal-pigs.jpg",
     fact:"Rotated through the paddocks — they turn ground over better than any tiller." },
-  { name:"The Sheep",     species:"Sheep",                img:"animal-sheep.svg",
+  { name:"The Sheep",     species:"Sheep",                img:"animal-sheep.jpg",
     fact:"Quietly the best grazers here. They keep the field edges honest." },
-  { name:"The Rabbits",   species:"Rabbits",              img:"animal-rabbits.svg",
+  { name:"The Rabbits",   species:"Rabbits",              img:"animal-rabbits.jpg",
     fact:"The hutch is the softest landing for a nervous first-time visitor." },
-  { name:"The Donkeys",   species:"Donkeys",              img:"animal-donkey.svg",
+  { name:"The Donkeys",   species:"Donkeys",              img:"animal-donkey.jpg",
     fact:"They're the security team. Nothing gets near the small stock on their watch." }
 ];
 
@@ -120,7 +120,7 @@ const JOURNAL = [
     kind  : "Build",
     month : "November 2026",
     title : "We closed on 145 acres",
-    img   : "journal-1.svg",
+    img   : "journal-1.jpg",
     body  : "The paperwork is done and the land is ours. It came out of a larger " +
             "parcel on Highway 66, which is why we have a brand new address. First " +
             "job is the perimeter: clearing the fence line, setting corners, and " +

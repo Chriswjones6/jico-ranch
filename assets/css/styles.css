@@ -914,3 +914,59 @@ html.js .reveal.in{opacity:1;transform:none}
   font-size:12px;letter-spacing:.1em;text-transform:uppercase;
   border:1px solid var(--line);border-radius:999px;padding:7px 14px;color:var(--ink-3);
 }
+
+/* ========================================================================
+   THE LAND RIBBON
+   A full-bleed three-up photo strip used as a visual break between two
+   text-heavy sections. No headline of its own on purpose: the captions
+   carry it, and the band sections above and below keep the numbering.
+   ===================================================================== */
+.ribbon{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:2px;
+  background:var(--ink);
+}
+.ribbon__item{
+  position:relative;
+  margin:0;
+  aspect-ratio:3/2;
+  overflow:hidden;
+  background:var(--cream);
+}
+.ribbon__item img{
+  width:100%;height:100%;
+  object-fit:cover;
+  display:block;
+  transition:transform 1.2s var(--ease);
+}
+.ribbon__item:hover img{transform:scale(1.05)}
+/* Scrim only under the caption, so the photo stays bright above it. */
+.ribbon__item::after{
+  content:"";
+  position:absolute;inset:auto 0 0 0;height:52%;
+  background:linear-gradient(to top,rgba(26,23,20,.82),rgba(26,23,20,0));
+  pointer-events:none;
+}
+.ribbon__cap{
+  position:absolute;left:0;right:0;bottom:0;
+  z-index:1;
+  padding:18px clamp(16px,2vw,26px);
+  color:var(--bone);
+  font-family:var(--sans);
+  font-size:clamp(13px,1.3vw,15px);
+  font-weight:500;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+.ribbon__cap span{
+  display:block;
+  font-size:11px;
+  letter-spacing:.3em;
+  color:var(--tan);
+  margin-bottom:5px;
+}
+@media (max-width:780px){
+  .ribbon{grid-template-columns:1fr}
+  .ribbon__item{aspect-ratio:16/10}
+}
