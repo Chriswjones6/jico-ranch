@@ -12,13 +12,31 @@
 /* --- The strip under the hero + the hours table -------------------------- */
 const RANCH = {
 
-  // What's ready to pick and what's on the stand right now. Keep these current —
-  // it's the single most-read thing on the page.
+  /* ===== MASTER SWITCH =================================================
+     false = PRE-OPENING. The strip under the hero shows build progress,
+             and the Visit section shows a "not open yet" panel instead
+             of an hours table.
+     true  = OPEN. The strip shows today's hours, what's ready to pick and
+             what's at the stand, and the hours table drives itself.
+     Flip this one value on opening day, then keep the fields below current.
+     ===================================================================== */
+  openToPublic: false,
+
+  /* ---- shown while openToPublic is false ---- */
+  build: {
+    status  : "Building out",
+    acreage : "145 acres",
+    phase   : "Clearing, fencing and water lines",
+    // TODO: put a real target here when you know it, e.g. "Spring 2027".
+    opening : "To be announced"
+  },
+
+  /* ---- shown once openToPublic is true ---- */
+  // What's ready to pick and what's on the stand right now.
   picking : "Tomatoes, okra, peppers",
   stand   : "Eggs, honey, squash",
 
-  // Set to a message to force a CLOSED banner (weather, private event, off season).
-  // Leave as "" for normal hours.
+  // Set to a message to force a CLOSED banner (weather, private event).
   notice  : "",
 
   // 0 = Sunday … 6 = Saturday.  Use null for a closed day.
@@ -74,6 +92,34 @@ const EVENTS = [
     text:"Pick from the field through the end of the month, weather depending." },
   { date:"2026-11-07", title:"Backyard Chickens 101",   tag:"Reserved",
     text:"Coop setup, feed, predators and the honest cost of a home egg. 16 seats." }
+];
+
+/* --- From the Ground Up — the monthly entry ------------------------------
+   Runs as a build journal now and becomes "Harvest of the Month" once there
+   are crops: set kind to "Harvest" and the label on the page follows.
+   Newest entry FIRST — that's the one shown large. `facts` is 2-4 pairs; for
+   a harvest entry use things like ["Sown","Mar 2"], ["Picked","May 18"],
+   ["Days to harvest","77"]. */
+const JOURNAL = [
+  {
+    kind  : "Build",
+    month : "November 2026",
+    title : "We closed on 145 acres",
+    img   : "journal-1.svg",
+    body  : "The paperwork is done and the land is ours. It came out of a larger " +
+            "parcel on Highway 66, which is why we have a brand new address. First " +
+            "job is the perimeter: clearing the fence line, setting corners, and " +
+            "getting water run before anything with four legs shows up.",
+    facts : [["Acres", "145"], ["County", "Horry"], ["First job", "Fencing"]]
+  },
+  {
+    kind  : "Build",
+    month : "December 2026",
+    title : "Fence line and water",
+    img   : "journal-2.svg",
+    body  : "Placeholder for the next entry — swap this for what actually happened.",
+    facts : [["Posts set", "—"], ["Acres fenced", "—"]]
+  }
 ];
 
 /* --- Season calendar -----------------------------------------------------
@@ -190,6 +236,43 @@ const esc = s => String(s).replace(/[&<>"]/g, m => ({'&':'&amp;','<':'&lt;','>':
    today strip + hours table
    ========================================================================== */
 (function today(){
+  const items = $('.today__items');
+
+  /* ---------- pre-opening: show build progress, not hours ---------- */
+  if (!RANCH.openToPublic){
+    const b = RANCH.build;
+    const dot = $('#statusDot'), text = $('#statusText');
+    if (dot)  dot.classList.add('today__dot--building');
+    if (text) text.textContent = b.status;
+
+    if (items){
+      items.innerHTML = [
+        ['The land',   b.acreage],
+        ['Right now',  b.phase],
+        ['Opening',    b.opening]
+      ].map(([k, v]) => `<div class="today__item">
+          <span class="today__label">${esc(k)}</span>
+          <span class="today__val">${esc(v)}</span>
+        </div>`).join('');
+    }
+
+    const list = $('#hoursList');
+    if (list){
+      list.innerHTML = `<div class="notyet">
+        <div class="notyet__t">Not open to the public yet</div>
+        <p>We're still building the place out, so there's nothing to visit today.
+           The quickest way to hear when the gate opens is the list below — or follow
+           along on Instagram, where the build gets posted as it happens.</p>
+        <div class="notyet__cta">
+          <a href="#plan" class="btn btn--primary btn--sm">Tell Me When You Open</a>
+          <a href="https://www.instagram.com/jico_ranch/" target="_blank" rel="noopener" class="btn btn--ghost btn--sm">Follow the Build</a>
+        </div>
+      </div>`;
+    }
+    return;
+  }
+
+  /* ---------- open: today's hours and what's ready ---------- */
   const todayIdx = new Date().getDay();
   const row = RANCH.hours[todayIdx];
   const isOpen = !!(row && row.open) && !RANCH.notice;
@@ -198,8 +281,7 @@ const esc = s => String(s).replace(/[&<>"]/g, m => ({'&':'&amp;','<':'&lt;','>':
   if (dot) dot.classList.toggle('today__dot--closed', !isOpen);
   if (text) text.textContent = RANCH.notice ? RANCH.notice : (isOpen ? 'Open today' : 'Closed today');
   if (hrs){
-    hrs.textContent = isOpen ? `${row.open} – ${row.close}`
-                             : nextOpenLabel(todayIdx);
+    hrs.textContent = isOpen ? `${row.open} – ${row.close}` : nextOpenLabel(todayIdx);
   }
   if ($('#todayPicking')) $('#todayPicking').textContent = RANCH.picking || '—';
   if ($('#todayStand'))   $('#todayStand').textContent   = RANCH.stand   || '—';
@@ -212,7 +294,6 @@ const esc = s => String(s).replace(/[&<>"]/g, m => ({'&':'&amp;','<':'&lt;','>':
     return 'See hours';
   }
 
-  // hours table
   const list = $('#hoursList');
   if (list){
     list.innerHTML = RANCH.hours.map((r, idx) => {
@@ -359,7 +440,7 @@ const esc = s => String(s).replace(/[&<>"]/g, m => ({'&':'&amp;','<':'&lt;','>':
    forms — posts to the action URL if one is set, otherwise opens an email
    ========================================================================== */
 (function forms(){
-  const EMAIL = 'info@jicoranch.com';
+  const EMAIL = 'jicoranch@gmail.com';
 
   const wire = (formId, okId, subject) => {
     const form = $('#' + formId), ok = $('#' + okId);
@@ -400,6 +481,39 @@ const esc = s => String(s).replace(/[&<>"]/g, m => ({'&':'&amp;','<':'&lt;','>':
 
   wire('contactForm', 'contactOk', 'Website enquiry — JICO Ranch');
   wire('signupForm',  'signupOk',  'Newsletter signup — JICO Ranch');
+})();
+
+/* ==========================================================================
+   from the ground up — newest entry large, the rest as a strip
+   ========================================================================== */
+(function journal(){
+  const host = $('#journalLatest'), past = $('#journalPast');
+  if (!host || !JOURNAL.length) return;
+
+  const [latest, ...rest] = JOURNAL;
+  const facts = (latest.facts || []).map(([k, v]) =>
+    `<div class="journal__fact"><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join('');
+
+  host.innerHTML = `
+    <div class="journal__media">
+      <img src="assets/img/${esc(latest.img)}" alt="${esc(latest.title)}" loading="lazy">
+    </div>
+    <div>
+      <span class="journal__kind">${latest.kind === 'Harvest' ? 'Harvest of the month' : 'From the ground up'}</span>
+      <div class="journal__month">${esc(latest.month)}</div>
+      <h3 class="journal__title">${esc(latest.title)}</h3>
+      <p class="journal__body">${esc(latest.body)}</p>
+      ${facts ? `<dl class="journal__facts">${facts}</dl>` : ''}
+    </div>`;
+
+  if (past){
+    past.innerHTML = rest.length
+      ? rest.map(e => `<a href="#journal">
+            <div class="m">${esc(e.month)}</div>
+            <div class="t">${esc(e.title)}</div>
+          </a>`).join('')
+      : '';
+  }
 })();
 
 /* ==========================================================================

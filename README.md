@@ -1,6 +1,7 @@
 # JICO Ranch — website
 
-A working family ranch and market garden in the South Carolina Lowcountry: livestock,
+A working family ranch and market garden in Loris, South Carolina (northern Horry
+County): livestock,
 a market garden, a farm stand, and the gate open to the public.
 
 Static site — no build step, no dependencies. Open `index.html` and it runs.
@@ -80,7 +81,7 @@ kept in `logo-lockup.png` if you ever want it.
       placeholder hours and prices. Delete that one line when the real details are in —
       the site is otherwise fully live and shareable.
 - [ ] Confirm the phone number — currently the JICO line `301-542-2542`. Give the ranch its own if it has one.
-- [ ] Confirm the public email — `info@jicoranch.com` is a placeholder, in `index.html` and in `main.js` (`EMAIL`).
+- [ ] Confirm the public email — `jicoranch@gmail.com` is a placeholder, in `index.html` and in `main.js` (`EMAIL`).
 - [ ] Fill in the real town/county, address and directions (`#visit`, "Where we are") and the JSON-LD `address` block.
 - [ ] Set the four stat numbers in the `#about` stats block — they're `data-count="0"` and render as `00` until you do.
 - [ ] Confirm hours, admission price, and every experience price. All currently plausible placeholders.
