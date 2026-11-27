@@ -94,12 +94,27 @@ const EVENTS = [
     text:"Coop setup, feed, predators and the honest cost of a home egg. 16 seats." }
 ];
 
-/* --- From the Ground Up — the monthly entry ------------------------------
-   Runs as a build journal now and becomes "Harvest of the Month" once there
-   are crops: set kind to "Harvest" and the label on the page follows.
-   Newest entry FIRST — that's the one shown large. `facts` is 2-4 pairs; for
-   a harvest entry use things like ["Sown","Mar 2"], ["Picked","May 18"],
-   ["Days to harvest","77"]. */
+/* --- From the Ground Up / Harvest of the Month ---------------------------
+   One entry a month, NEWEST FIRST. Two kinds of entry share the section:
+
+   kind: "Build"    a note on building the ranch out. Needs month, title, img,
+                    body, and optional facts (2-4 [label, value] pairs).
+
+   kind: "Harvest"  the full harvest treatment. Adds:
+     crop      what it is, used as the headline
+     variety   the specific variety, small caps under the headline
+     timeline  { sown, planted, firstPick } as "YYYY-MM-DD".
+               `planted` (transplant date) is optional — leave it out for
+               anything direct-sown. Days to harvest is CALCULATED from sown
+               to firstPick, so never type it in by hand.
+     yield     what came off it
+     window    how long picking lasts
+     grown     how it was grown
+     use       what to do with it once you get it home
+
+   A worked example is at the bottom of this file under HARVEST_EXAMPLE —
+   copy it to the top of this array when the first crop comes in.
+   ------------------------------------------------------------------------ */
 const JOURNAL = [
   {
     kind  : "Build",
@@ -111,14 +126,6 @@ const JOURNAL = [
             "job is the perimeter: clearing the fence line, setting corners, and " +
             "getting water run before anything with four legs shows up.",
     facts : [["Acres", "145"], ["County", "Horry"], ["First job", "Fencing"]]
-  },
-  {
-    kind  : "Build",
-    month : "December 2026",
-    title : "Fence line and water",
-    img   : "journal-2.svg",
-    body  : "Placeholder for the next entry — swap this for what actually happened.",
-    facts : [["Posts set", "—"], ["Acres fenced", "—"]]
   }
 ];
 
@@ -487,32 +494,91 @@ const esc = s => String(s).replace(/[&<>"]/g, m => ({'&':'&amp;','<':'&lt;','>':
    from the ground up — newest entry large, the rest as a strip
    ========================================================================== */
 (function journal(){
-  const host = $('#journalLatest'), past = $('#journalPast');
-  if (!host || !JOURNAL.length) return;
+  const host = $('#journalLatest'), past = $('#journalPast'), soon = $('#harvestSoon');
+  if (!host) return;
+
+  if (!JOURNAL.length){ if (soon) soon.hidden = false; return; }
 
   const [latest, ...rest] = JOURNAL;
-  const facts = (latest.facts || []).map(([k, v]) =>
-    `<div class="journal__fact"><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join('');
 
-  host.innerHTML = `
-    <div class="journal__media">
-      <img src="assets/img/${esc(latest.img)}" alt="${esc(latest.title)}" loading="lazy">
-    </div>
-    <div>
-      <span class="journal__kind">${latest.kind === 'Harvest' ? 'Harvest of the month' : 'From the ground up'}</span>
-      <div class="journal__month">${esc(latest.month)}</div>
-      <h3 class="journal__title">${esc(latest.title)}</h3>
-      <p class="journal__body">${esc(latest.body)}</p>
-      ${facts ? `<dl class="journal__facts">${facts}</dl>` : ''}
-    </div>`;
+  // local-date parse: "2027-03-28" must not drift a day on a UTC parse
+  const d = iso => { const [y,m,day] = iso.split('-').map(Number); return new Date(y, m-1, day); };
+  const fmt = dt => dt.toLocaleDateString('en-US', { month:'short', day:'numeric' });
+  const days = (a1, b1) => Math.round((d(b1) - d(a1)) / 86400000);
+
+  const factsRow = f => (f || []).length
+    ? `<dl class="journal__facts">${f.map(([k,v]) =>
+        `<div class="journal__fact"><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl>`
+    : '';
+
+  function timeline(t){
+    // markers sit at their true proportional position, so a fast crop and a
+    // slow one look different at a glance
+    const pts = [['Sown', t.sown], t.planted && ['Planted out', t.planted], ['First pick', t.firstPick]]
+      .filter(Boolean);
+    const span = days(t.sown, t.firstPick) || 1;
+    const marks = pts.map(([k, iso], i) => {
+      const pct = Math.min(100, Math.max(0, (days(t.sown, iso) / span) * 100));
+      return `<div class="timeline__pt${i === pts.length - 1 ? ' timeline__pt--last' : ''}" style="left:${pct}%">
+          <div class="timeline__lab"><div class="timeline__k">${esc(k)}</div>
+          <div class="timeline__d">${esc(fmt(d(iso)))}</div></div>
+          <div class="timeline__dot"></div>
+        </div>`;
+    }).join('');
+    return `<div class="timeline">
+        <div class="timeline__track">${marks}</div>
+        <div class="timeline__total"><strong>${span} days</strong> from seed to basket.</div>
+      </div>`;
+  }
+
+  if (latest.kind === 'Harvest'){
+    const t = latest.timeline;
+    // days-to-harvest is on the timeline above and the variety sits under the
+    // crop name, so neither is repeated here
+    const facts = [
+      latest.yield  && ['Yield', latest.yield],
+      latest.window && ['Picking window', latest.window]
+    ].filter(Boolean);
+
+    host.innerHTML = `
+      <div class="journal__media">
+        <img src="assets/img/${esc(latest.img)}" alt="${esc(latest.crop)}" loading="lazy">
+      </div>
+      <div>
+        <span class="journal__kind">Harvest of the month</span>
+        <div class="journal__month">${esc(latest.month)}</div>
+        <h3 class="journal__title">${esc(latest.crop)}</h3>
+        ${latest.variety ? `<div class="harvest__variety">${esc(latest.variety)}</div>` : ''}
+        <p class="journal__body">${esc(latest.body || '')}</p>
+        ${t ? timeline(t) : ''}
+        ${factsRow(facts)}
+        ${(latest.grown || latest.use) ? `<div class="harvest__cols">
+          ${latest.grown ? `<div class="harvest__col"><h4>How we grew it</h4><p>${esc(latest.grown)}</p></div>` : ''}
+          ${latest.use   ? `<div class="harvest__col"><h4>What to do with it</h4><p>${esc(latest.use)}</p></div>` : ''}
+        </div>` : ''}
+      </div>`;
+  } else {
+    host.innerHTML = `
+      <div class="journal__media">
+        <img src="assets/img/${esc(latest.img)}" alt="${esc(latest.title)}" loading="lazy">
+      </div>
+      <div>
+        <span class="journal__kind">From the ground up</span>
+        <div class="journal__month">${esc(latest.month)}</div>
+        <h3 class="journal__title">${esc(latest.title)}</h3>
+        <p class="journal__body">${esc(latest.body)}</p>
+        ${factsRow(latest.facts)}
+      </div>`;
+  }
+
+  // nothing has been harvested yet — say so rather than hide the idea
+  if (soon) soon.hidden = JOURNAL.some(e => e.kind === 'Harvest');
 
   if (past){
-    past.innerHTML = rest.length
-      ? rest.map(e => `<a href="#journal">
-            <div class="m">${esc(e.month)}</div>
-            <div class="t">${esc(e.title)}</div>
-          </a>`).join('')
-      : '';
+    past.innerHTML = rest.map(e => `<a href="#journal">
+        <div class="m">${esc(e.month)}</div>
+        <div class="t">${esc(e.crop || e.title)}</div>
+      </a>`).join('');
   }
 })();
 
@@ -520,3 +586,30 @@ const esc = s => String(s).replace(/[&<>"]/g, m => ({'&':'&amp;','<':'&lt;','>':
    misc
    ========================================================================== */
 $('#year') && ($('#year').textContent = new Date().getFullYear());
+
+
+/* ==========================================================================
+   HARVEST_EXAMPLE — a filled-in harvest entry.
+   Copy this object to the TOP of the JOURNAL array when the first crop comes
+   in, delete this block, and the section switches itself over. Nothing below
+   runs; it is here purely as a template.
+   ==========================================================================
+const HARVEST_EXAMPLE = {
+  kind    : "Harvest",
+  month   : "June 2027",
+  crop    : "Sweet Corn",
+  variety : "Silver Queen",
+  img     : "harvest-corn.svg",
+  body    : "The first real crop off the new ground. Silver Queen is a slow, " +
+            "old-fashioned white corn that most commercial growers gave up on " +
+            "because it does not ship. It does not have to ship ten feet to the " +
+            "farm stand.",
+  timeline: { sown: "2027-03-28", planted: "2027-04-18", firstPick: "2027-06-14" },
+  yield   : "About 900 ears off a quarter acre",
+  window  : "Mid-June into July",
+  grown   : "Direct-sown in four successions two weeks apart so it does not all " +
+            "come ripe at once. Compost from our own animals, drip irrigation, no spray.",
+  use     : "Eat it the day you buy it. Boil six minutes, or shuck it and put it " +
+            "straight on the grill in the husk. Anything left over cuts off the cob and freezes."
+};
+*/

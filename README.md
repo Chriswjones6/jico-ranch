@@ -44,11 +44,32 @@ Open `assets/js/main.js`. Everything you'll touch is in the marked block at the 
 | Hero video clips | `HERO_CLIPS` (filenames in `assets/video/`) |
 | Animal roster | `ANIMALS` |
 | Event calendar | `EVENTS` (past dates drop off automatically) |
+| Monthly entry (build log / harvest) | `JOURNAL` — newest FIRST |
 | Season calendar | `SEASON` — 12 numbers per crop, Jan→Dec, `0` none `1` available `2` peak |
 
 Experience cards and their pricing are plain HTML in `index.html` under
 `<!-- ============ EXPERIENCES ============ -->`. The "everything else" grid is right
 below it under `#more`.
+
+## Harvest of the Month
+
+The `#journal` section runs one entry a month and handles two kinds, both from the
+`JOURNAL` array at the top of `assets/js/main.js`. Newest entry goes **first**.
+
+- `kind: "Build"` — a note on building the ranch out. Needs `month`, `title`, `img`,
+  `body`, optional `facts` (2–4 `[label, value]` pairs).
+- `kind: "Harvest"` — the full treatment, headed "Harvest of the month". Adds `crop`,
+  `variety`, `timeline` (`sown`, optional `planted`, `firstPick` as `YYYY-MM-DD`),
+  `yield`, `window`, `grown` and `use`.
+
+**Days to harvest is calculated**, never typed — the timeline measures `sown` to
+`firstPick` and places each marker at its true proportional position, so a 54-day radish
+and a 110-day melon visibly differ. Leave `planted` out for anything direct-sown.
+
+Until the first `kind: "Harvest"` entry exists, the section shows a "harvest of the month
+starts with the first crop" panel; adding one hides it automatically. A filled-in example
+sits at the bottom of `main.js` as `HARVEST_EXAMPLE` — copy it to the top of `JOURNAL`
+and delete the comment block.
 
 ## Replacing the placeholders
 Every image in `assets/img/` is a generated SVG placeholder. Drop a real photo in with
