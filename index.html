@@ -33,7 +33,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400;1,9..144,600&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/styles.css">
+<!-- ?v= is a cache buster. Browsers hold onto main.js, and a stale copy points
+     at image files that no longer exist, which breaks the animal roster for
+     anyone who visited before. Bump the date whenever you change either file. -->
+<link rel="stylesheet" href="assets/css/styles.css?v=20261127">
 
 <!-- TODO before launch: confirm NAP (name/address/phone) matches the real ranch listing. -->
 <script type="application/ld+json">
@@ -1093,6 +1096,6 @@
   <a class="s-visit" href="#plan">Follow the Build</a>
 </div>
 
-<script src="assets/js/main.js" defer></script>
+<script src="assets/js/main.js?v=20261127" defer></script>
 </body>
 </html>

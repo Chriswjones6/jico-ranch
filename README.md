@@ -72,6 +72,13 @@ starts with the first crop" panel; adding one hides it automatically. A filled-i
 sits at the bottom of `main.js` as `HARVEST_EXAMPLE` — copy it to the top of `JOURNAL`
 and delete the comment block.
 
+## Cache busting
+`index.html` loads `styles.css?v=YYYYMMDD` and `main.js?v=YYYYMMDD`. **Bump that date
+whenever you edit either file.** Without it a returning visitor keeps their cached copy
+of `main.js`, and a stale copy can point at image filenames that no longer exist -- the
+animal roster renders from that file, so it goes to broken-image icons and you would
+never see it yourself on a fresh browser.
+
 ## Replacing the stand-in photos
 Every photo in `assets/img/` is a real photograph of **somebody else's** farm, pulled
 from Unsplash under the [Unsplash License](https://unsplash.com/license) — free for
