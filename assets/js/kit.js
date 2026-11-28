@@ -83,13 +83,16 @@ const KIT = [
   {
     area  : "ducks",
     item  : "Duck feed",
-    brand : "Purina duck pellets, 19% protein",     // TODO confirm exact title
-    what  : "40 lb bag",                            // TODO confirm
+    brand : "Purina Duck Feed for All Life-Stages",   // confirmed from the listing
+    what  : "19% protein pellets, 40 lb bag. Purina also lists elevated niacin " +
+            "and added pre/probiotics on the label.",
     asin  : "B07VF8PQ8G"
-    // why     : TODO -- why this over the cheaper bag
-    // cadence : TODO -- how long a bag lasts, how many ducks
-    // note    : TODO -- how it is going, dated
-    // price   : TODO -- what you pay and where
+    // why     : TODO -- why this over the cheaper bag. Did you try another first?
+    // cadence : TODO -- how long a 40 lb bag lasts, and for how many birds
+    // note    : TODO -- how it is going. Needs the birds first.
+    // price   : TODO -- what YOU paid and where. Not Amazon's number:
+    //            their listing is flagged "High price" and the 40 lb has no
+    //            featured offer, so a farm store is likely cheaper anyway.
   },
   {
     area  : "ducks",
