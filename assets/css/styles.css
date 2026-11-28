@@ -1034,3 +1034,102 @@ html.js .reveal.in{opacity:1;transform:none}
      to fall off the edge. Temperature and sky are the part people want. */
   .wx__hl{display:none}
 }
+
+/* ========================================================================
+   WHAT TO PLANT NOW  (planting.html)
+   A standalone utility page. It reuses the site's tokens and section
+   furniture so it reads as part of the ranch rather than a bolted-on tool.
+   ===================================================================== */
+.pz{padding-top:clamp(40px,6vw,86px)}
+.pz-head{display:flex;align-items:baseline;gap:14px;margin:0 0 20px}
+.pz-h2{
+  font-family:var(--serif);
+  font-size:clamp(22px,2.6vw,30px);
+  font-weight:500;
+  letter-spacing:-.01em;
+}
+.pz-count{
+  font-family:var(--sans);font-size:12px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--moss);opacity:.75;
+}
+
+/* ---- the "plant it now" cards ---- */
+.pz-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+.pz-card{
+  background:var(--paper);
+  border:1px solid rgba(26,23,20,.10);
+  border-left:3px solid var(--sage);
+  border-radius:4px;
+  padding:18px 18px 16px;
+}
+/* A closing window is the whole reason to look at this page today, so it
+   gets the warm accent rather than another shade of green. */
+.pz-card--urgent{border-left-color:var(--rust);background:#FAF1E9}
+.pz-card__top{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+.pz-card h3{font-family:var(--serif);font-size:20px;font-weight:500;line-height:1.2}
+.pz-season{
+  font-family:var(--sans);font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--moss);opacity:.7;flex:none;
+}
+.pz-win{margin-top:9px;font-family:var(--sans);font-size:15px;color:var(--ink);opacity:.72}
+.pz-left{
+  margin-top:3px;font-family:var(--sans);font-size:13px;font-weight:500;
+  letter-spacing:.04em;color:var(--moss);
+}
+.pz-card--urgent .pz-left{color:var(--rust)}
+.pz-tags{margin-top:11px;display:flex;flex-wrap:wrap;gap:6px}
+.pz-tag{
+  font-family:var(--sans);font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;
+  background:rgba(110,130,89,.14);color:var(--moss);
+  padding:3px 8px;border-radius:999px;white-space:nowrap;cursor:help;
+}
+th .pz-tag{margin-left:8px}
+
+/* ---- what is coming ---- */
+.pz-soon{list-style:none;margin:0;padding:0;border-top:1px solid rgba(26,23,20,.12)}
+.pz-soon li{
+  display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+  padding:11px 2px;border-bottom:1px solid rgba(26,23,20,.09);
+  font-family:var(--sans);font-size:15px;
+}
+.pz-soon__crop{flex:1 1 170px;font-weight:500}
+.pz-soon__when{opacity:.7}
+.pz-soon__in{
+  margin-left:auto;font-size:12.5px;letter-spacing:.06em;
+  color:var(--moss);white-space:nowrap;
+}
+.pz-empty{font-family:var(--sans);font-size:15px;opacity:.7;padding:14px 0;max-width:62ch}
+
+/* ---- full-year chart ---- */
+.pz-more{margin-top:46px}
+.pz-table{width:100%;border-collapse:collapse;font-family:var(--sans);font-size:14.5px}
+.pz-table th,.pz-table td{padding:9px 14px;text-align:left;white-space:nowrap}
+.pz-table thead th{
+  font-size:11px;letter-spacing:.17em;text-transform:uppercase;
+  color:var(--moss);border-bottom:1px solid rgba(26,23,20,.18);
+}
+.pz-table tbody th{font-weight:500;white-space:normal}
+.pz-table tbody tr{border-bottom:1px solid rgba(26,23,20,.07)}
+.pz-table .pz-no{opacity:.4}
+.pz-table .pz-open{color:var(--moss);font-weight:600}
+.pz-row--open{background:rgba(110,130,89,.08)}
+
+.pz-source{
+  margin-top:28px;max-width:76ch;
+  font-family:var(--sans);font-size:13.5px;line-height:1.65;opacity:.68;
+}
+.pz-source a{color:var(--moss);text-decoration:underline}
+
+/* ---- the ask ---- */
+.pz-cta{
+  margin-top:60px;padding:30px clamp(20px,3vw,38px);
+  background:var(--ink);color:var(--bone);border-radius:5px;
+}
+.pz-cta .pz-h2{color:var(--bone)}
+.pz-cta p{margin-top:10px;max-width:60ch;font-family:var(--sans);font-size:16px;color:rgba(246,240,230,.82)}
+.pz-cta__row{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px}
+
+@media(max-width:600px){
+  .pz-grid{grid-template-columns:1fr}
+  .pz-soon__in{margin-left:0;flex-basis:100%}
+}

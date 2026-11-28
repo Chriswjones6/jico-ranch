@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>What to Plant Now in Horry County, SC — JICO Ranch</title>
+<meta name="description" content="What you can plant this week in Horry County, South Carolina, on Clemson Extension's planting chart for the coastal region. Updates itself every day.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="assets/img/favicon.png" type="image/png" sizes="512x512">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/styles.css?v=20261128b">
+<script>document.documentElement.className = 'js';</script>
+</head>
+<body>
+
+<header class="header" id="header">
+  <div class="wrap header__in">
+    <a class="brand" href="index.html" aria-label="JICO Ranch, home">
+      <img class="brand__lockup brand__lockup--ink" src="assets/img/logo-lockup-h.png"
+           alt="JICO Ranch" width="360" height="92">
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a href="index.html#animals">Animals</a>
+      <a href="index.html#garden">Garden</a>
+      <a href="index.html#visit">Visit</a>
+      <a href="index.html#plan" class="nav__cta">Follow the Build</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ============================ THE TOOL ============================ -->
+<section class="section section--tint pz">
+  <div class="wrap">
+
+    <div class="section__head reveal">
+      <div class="eyebrow-rule"></div>
+      <span class="kicker kicker--sage">Horry County &middot; Coastal Plain &middot; USDA zone 8b</span>
+      <h1 class="dual dual--sage">
+        <span class="dual__lead">What to plant</span>
+        <span class="dual__main">This week.</span>
+      </h1>
+      <p class="section__lead">Everything Clemson Extension says can go in the ground around here
+        right now. The page works it out from today's date, so it is right every morning without
+        anyone touching it. <strong id="pzDate">&mdash;</strong></p>
+    </div>
+
+    <!-- in the ground now -->
+    <div class="pz-head reveal">
+      <h2 class="pz-h2">In the ground now</h2>
+      <span class="pz-count"><span id="pzNowCount">0</span> crops</span>
+    </div>
+    <div class="pz-grid reveal" id="pzNow"></div>
+
+    <!-- opening soon -->
+    <div class="pz-head reveal" style="margin-top:56px">
+      <h2 class="pz-h2">Opening next</h2>
+    </div>
+    <ol class="pz-soon reveal" id="pzSoon"></ol>
+
+    <!-- the full chart -->
+    <div class="pz-more reveal">
+      <button class="btn btn--ghost btn--sm" id="pzToggle" aria-expanded="false" aria-controls="pzChart">
+        See the full-year chart
+      </button>
+    </div>
+    <div class="season reveal" id="pzChart" hidden style="margin-top:22px">
+      <div class="season__scroll">
+        <table class="pz-table" id="pzTable">
+          <caption class="sr-only">Spring and fall planting windows for the South Carolina coastal region</caption>
+        </table>
+      </div>
+    </div>
+
+    <p class="pz-source reveal" id="pzSource"></p>
+
+    <!-- the point of the page, for us -->
+    <div class="pz-cta reveal">
+      <h2 class="pz-h2">Growing the same things we are?</h2>
+      <p>We are putting in a market garden on 145 acres off Highway 66, and we post what actually
+        worked &mdash; the variety, the dates, what the row yielded. No charge, no catch.</p>
+      <div class="pz-cta__row">
+        <a href="index.html#plan" class="btn btn--primary">Get the monthly note</a>
+        <a href="index.html#garden" class="btn btn--ghost">See what we grow</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap footer__bottom" style="border-top:0">
+    <span>&copy; <span id="year">2026</span> JICO Ranch &middot; 2407 Highway 66, Loris, SC 29569</span>
+    <a href="index.html">Back to the ranch</a>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+  // the site's reveal-on-scroll, kept local so this page needs nothing else
+  (function(){
+    var els = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window)){
+      els.forEach(function(e){ e.classList.add('in'); }); return;
+    }
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { rootMargin: '0px 0px -8% 0px' });
+    els.forEach(function(e){ io.observe(e); });
+    // if the observer never fires, show everything rather than a blank page
+    setTimeout(function(){ els.forEach(function(e){ e.classList.add('in'); }); }, 2500);
+  })();
+</script>
+<script src="assets/js/planting.js?v=20261128b" defer></script>
+</body>
+</html>
