@@ -1133,3 +1133,14 @@ th .pz-tag{margin-left:8px}
   .pz-grid{grid-template-columns:1fr}
   .pz-soon__in{margin-left:0;flex-basis:100%}
 }
+/* the week this page is answering for -- stated plainly, because "this week"
+   on its own is the kind of vague a planting date cannot afford */
+.pz-week{
+  margin-top:14px;
+  font-family:var(--sans);
+  font-size:clamp(15px,1.7vw,18px);
+  letter-spacing:.02em;
+  color:var(--moss);
+}
+.pz-card--later{border-left-color:var(--tan-2,#C9B295);opacity:.92}
+.pz-card--later .pz-left{color:var(--ink);opacity:.6}

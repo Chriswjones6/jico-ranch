@@ -99,22 +99,79 @@ function windowState(w, today){
   return { open, until, left, from: label(w[0]), to: label(w[1]) };
 }
 
+// Is a day-of-year inside a window? Pulled out so the week scan can reuse it.
+const dayInWindow = (w, doy) => {
+  if (!w) return false;
+  const a = parse(w[0]), b = parse(w[1]);
+  return a <= b ? (doy >= a && doy <= b) : (doy >= a || doy <= b);
+};
+
 /* ---------------------------------------------------------------- render -- */
 (function plantNow(){
+  const DAYS = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
   const now   = new Date();
   const today = dayOf(now.getMonth() + 1, now.getDate());
+
+  /* ---- which seven days the page answers for ----
+     'rolling'  today and the next six days
+     'sunday'   the Sunday-to-Saturday week today falls in
+
+     Rolling is the default, and on purpose. A Sunday-start week read on a
+     Saturday is six-sevenths expired: the page would have said "Week of
+     Nov 22-28" while the only thing worth knowing was that garlic closes on
+     Nov 30. A planting window you have already missed is not useful. Rolling
+     is always forward-looking and still names exact dates. Switch to 'sunday'
+     here if a fixed calendar week ever matters more than being actionable.
+
+     Built as seven real Date objects rather than arithmetic on day-of-year
+     numbers: a week can straddle the end of the year, and iterating actual
+     dates sidesteps every wrap-around bug that would otherwise need handling. */
+  const WEEK_MODE = 'rolling';
+
+  const weekStart = new Date(now);
+  weekStart.setHours(0,0,0,0);
+  if (WEEK_MODE === 'sunday') weekStart.setDate(weekStart.getDate() - weekStart.getDay());
+  const week = [];
+  for (let i = 0; i < 7; i++){
+    const d = new Date(weekStart);
+    d.setDate(d.getDate() + i);
+    week.push({ date: d, doy: dayOf(d.getMonth() + 1, d.getDate()), dow: d.getDay() });
+  }
+  const wA = week[0].date, wB = week[6].date;
+
+  // "November 22-28, 2026", or "November 29 - December 5, 2026" across a month
+  const weekLabel = (wA.getMonth() === wB.getMonth())
+    ? MONTHS[wA.getMonth()] + ' ' + wA.getDate() + '–' + wB.getDate() + ', ' + wB.getFullYear()
+    : MONTHS[wA.getMonth()] + ' ' + wA.getDate() + ' – ' +
+      MONTHS[wB.getMonth()] + ' ' + wB.getDate() + ', ' + wB.getFullYear();
 
   const rows = CROPS.map(c => {
     const s = windowState(c.spring, today);
     const f = windowState(c.fall, today);
-    const states = [s && {...s, season:'Spring'}, f && {...f, season:'Fall'}].filter(Boolean);
-    const openNow = states.find(x => x.open) || null;
-    // of the windows not open, the one that opens soonest
-    const next = states.filter(x => !x.open).sort((a, b) => a.until - b.until)[0] || null;
+    const states = [
+      s && {...s, season:'Spring', win:c.spring},
+      f && {...f, season:'Fall',   win:c.fall}
+    ].filter(Boolean);
+
+    // A crop counts for this week if its window covers ANY day of the week,
+    // not only today -- that is what "this week" has to mean on a page people
+    // read on a Tuesday to plan their Saturday.
+    states.forEach(st => {
+      const days = week.filter(d => dayInWindow(st.win, d.doy));
+      st.daysThisWeek = days.length;
+      st.opensOn = (!st.open && days.length) ? days[0] : null;   // opens later this week
+    });
+
+    const openNow = states.find(x => x.open)
+                 || states.find(x => x.daysThisWeek > 0)
+                 || null;
+    const next = states.filter(x => !x.daysThisWeek).sort((a, b) => a.until - b.until)[0] || null;
     return { ...c, openNow, next, states };
   });
 
-  const nowList   = rows.filter(r => r.openNow).sort((a, b) => a.openNow.left - b.openNow.left);
+  const nowList   = rows.filter(r => r.openNow)
+                      .sort((a, b) => (a.openNow.open ? 0 : 1) - (b.openNow.open ? 0 : 1)
+                                   || a.openNow.left - b.openNow.left);
   // Always show what is coming, however far off. A hard 45-day cutoff left
   // this section empty every winter, which is exactly when a gardener is
   // sitting indoors planning next year.
@@ -129,7 +186,7 @@ function windowState(w, today){
   ].join('');
 
   /* ---- the date line ---- */
-  el('pzDate').textContent = MONTHS[now.getMonth()] + ' ' + now.getDate() + ', ' + now.getFullYear();
+  el('pzDate').textContent = (WEEK_MODE === 'sunday' ? 'Week of ' : 'The week ahead: ') + weekLabel + '.';
 
   /* ---- in the ground now ---- */
   if (!nowList.length){
@@ -139,17 +196,19 @@ function windowState(w, today){
   } else {
     el('pzNow').innerHTML = nowList.map(r => {
       const w = r.openNow;
-      const urgent = w.left <= 14;
-      return `<article class="pz-card${urgent ? ' pz-card--urgent' : ''}">
+      const urgent = w.open && w.left <= 14;
+      const status = w.opensOn
+        ? 'Opens ' + DAYS[w.opensOn.dow]
+        : w.left === 0 ? 'Last day of the window'
+        : w.left === 1 ? '1 day left'
+        : w.left + ' days left';
+      return `<article class="pz-card${urgent ? ' pz-card--urgent' : ''}${w.opensOn ? ' pz-card--later' : ''}">
         <div class="pz-card__top">
           <h3>${r.crop}</h3>
           <span class="pz-season">${w.season}</span>
         </div>
         <div class="pz-win">${w.from} – ${w.to}</div>
-        <div class="pz-left">${
-          w.left === 0 ? 'Last day of the window'
-          : w.left === 1 ? '1 day left'
-          : w.left + ' days left'}</div>
+        <div class="pz-left">${status}</div>
         ${tag(r) ? `<div class="pz-tags">${tag(r)}</div>` : ''}
       </article>`;
     }).join('');
