@@ -23,8 +23,10 @@ worth reading.
 You said you're feeding the ducks and "doing all sorts of other things" for them.
 Best guesses at the categories, so you can just go down the list:
 
-- [ ] **Feed** — brand, bag size, price, how long a bag lasts
-- [ ] **Niacin supplement** — brewer's yeast or similar, if you're adding it
+- [x] **Feed** — Purina duck pellets, 19% protein, 40 lb (ASIN B07VF8PQ8G).
+      Still need: exact title, price, how long a bag lasts, why this one.
+- [x] **Niacin supplement** — brewer's yeast (ASIN B0D1W24CY7).
+      Still need: exact title, price, how much per feeding and how often.
 - [ ] **Waterer** — ducks wreck standard poultry waterers; what are you using?
 - [ ] **Feeder**
 - [ ] **Bedding** — straw, shavings, deep litter?
@@ -51,10 +53,14 @@ and why. These stay up permanently with a "no longer using" flag.
 
 ## Also worth settling
 
-1. **Do you actually have ducks on the property now?** The homepage currently says
-   animals are "to come" and the status strip says the current phase is "clearing,
-   fencing and water lines." If birds are already there, the site is underselling
-   where you are and I should update it.
+1. ~~Do you actually have ducks on the property now?~~ **Answered:** ducks are bought
+   and land mid-December 2026. Status strip now reads "Fencing, water lines, first
+   ducks this month". Flip `RANCH.build.phase` in `main.js` the day they arrive.
+
+   The experience fields — how long a bag lasts, how it's going — have to wait for
+   the birds. The affiliate links make that more than a nicety: "we use this" plus a
+   paid link, for something not yet in use, is the one claim that is an actual FTC
+   problem rather than a wording preference.
 
 2. **Amazon Associates ID** — see the README. Do not apply before the site is public;
    the 3-sales-in-180-days clock starts the day you apply.
