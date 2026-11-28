@@ -28,11 +28,13 @@ The page borrows the structure the big legacy ranch sites use, adapted for agrit
 - **Full-bleed bands** (`.band`) — the Animals and Garden pillars each get a full-height
   image/video section with a big ghosted number. Swap the `<img>` for a `<video>` when
   you have footage.
-- **Capability grid** (`.caps`) — the plain text "everything else we offer" grid.
 - **Today at the ranch** — the live status strip under the hero. Nothing on a ranch site
   gets read more than "are you open and what can I pick." This is the piece the big ranch
   sites don't have and the agritourism sites win on.
 - **Season calendar** — month-by-month crop availability, current month auto-highlighted.
+- **Hero montage** — the headline sits over crossfading photos with a slow drift. Real
+  footage takes over the moment `HERO_CLIPS` has anything in it.
+- **The land ribbon** (`.ribbon`) — a full-bleed three-up photo strip, no headline.
 
 ## Editing the things that change
 Open `assets/js/main.js`. Everything you'll touch is in the marked block at the very top:
@@ -42,35 +44,44 @@ Open `assets/js/main.js`. Everything you'll touch is in the marked block at the 
 | What's ripe / what's at the stand | `RANCH.picking`, `RANCH.stand` |
 | Force a CLOSED banner (weather, private event) | `RANCH.notice` |
 | Open hours per day | `RANCH.hours` |
-| Hero video clips | `HERO_CLIPS` (filenames in `assets/video/`) |
+| Hero video clips | `HERO_CLIPS` (filenames in `assets/video/`) — wins over the stills |
+| Hero crossfade photos | `HERO_STILLS` (filenames in `assets/img/`) |
+| Weather grid cell | `WEATHER` — two National Weather Service URLs |
 | Animal roster | `ANIMALS` |
 | Event calendar | `EVENTS` (past dates drop off automatically) |
-| Monthly entry (build log / harvest) | `JOURNAL` — newest FIRST |
+| Harvest of the month | `HARVESTS` — newest FIRST, empty is fine |
 | Season calendar | `SEASON` — 12 numbers per crop, Jan→Dec, `0` none `1` available `2` peak |
 
 Experience cards and their pricing are plain HTML in `index.html` under
-`<!-- ============ EXPERIENCES ============ -->`. The "everything else" grid is right
-below it under `#more`.
+`<!-- ============ EXPERIENCES ============ -->`.
+
+## Weather
+The status strip shows live conditions for the ranch from the **National Weather
+Service** — public-domain US government data, no API key, no account, no usage limit,
+nothing to renew. `WEATHER` in `main.js` holds two URLs for grid cell `ILM 56,63`, the
+~2.5km square covering 2407 Highway 66, so it is the ranch's forecast and not a city
+twenty miles away. To move it, open `https://api.weather.gov/points/<lat>,<lon>` and
+copy the two URLs out of the response.
+
+It fails silently and the item simply never appears, which is the right behaviour: a
+live-looking widget showing a stale number is worse than no widget. Results cache in
+`sessionStorage` for 15 minutes.
 
 ## Harvest of the Month
 
-The `#journal` section runs one entry a month and handles two kinds, both from the
-`JOURNAL` array at the top of `assets/js/main.js`. Newest entry goes **first**.
-
-- `kind: "Build"` — a note on building the ranch out. Needs `month`, `title`, `img`,
-  `body`, optional `facts` (2–4 `[label, value]` pairs).
-- `kind: "Harvest"` — the full treatment, headed "Harvest of the month". Adds `crop`,
-  `variety`, `timeline` (`sown`, optional `planted`, `firstPick` as `YYYY-MM-DD`),
-  `yield`, `window`, `grown` and `use`.
+Lives at the foot of the Garden section and runs off the `HARVESTS` array at the top of
+`assets/js/main.js`. Newest entry **first**. Each one needs `month`, `crop`, `variety`,
+`img`, `body`, `timeline` (`sown`, optional `planted`, `firstPick` as `YYYY-MM-DD`),
+`yield`, `window`, `grown` and `use`.
 
 **Days to harvest is calculated**, never typed — the timeline measures `sown` to
 `firstPick` and places each marker at its true proportional position, so a 54-day radish
 and a 110-day melon visibly differ. Leave `planted` out for anything direct-sown.
 
-Until the first `kind: "Harvest"` entry exists, the section shows a "harvest of the month
-starts with the first crop" panel; adding one hides it automatically. A filled-in example
-sits at the bottom of `main.js` as `HARVEST_EXAMPLE` — copy it to the top of `JOURNAL`
-and delete the comment block.
+While `HARVESTS` is empty the section shows a "harvest of the month starts with the first
+crop" panel; adding an entry hides it automatically. A filled-in example sits at the
+bottom of `main.js` as `HARVEST_EXAMPLE` — copy it to the top of `HARVESTS` and delete
+the comment block.
 
 ## Cache busting
 `index.html` loads `styles.css?v=YYYYMMDD` and `main.js?v=YYYYMMDD`. **Bump that date
@@ -126,7 +137,6 @@ kept in `logo-lockup.png` if you ever want it.
 - [ ] Fill in the real town/county, address and directions (`#visit`, "Where we are") and the JSON-LD `address` block.
 - [ ] Set the four stat numbers in the `#about` stats block — they're `data-count="0"` and render as `00` until you do.
 - [ ] Confirm hours, admission price, and every experience price. All currently plausible placeholders.
-- [ ] Prune the "everything else" grid down to what the ranch actually offers.
 - [ ] Real photos throughout — every `.jpg` in `assets/img/` is somebody else's farm.
       See `assets/img/PHOTO-CREDITS.md`. **Do not fabricate reviews or testimonials**
       if you add a proof section.
@@ -172,3 +182,13 @@ will override the A records and the site won't resolve.
 
 DNS usually propagates in 10–60 minutes. Check with `nslookup jicoranch.com` — you want
 the 185.199.x.153 addresses back, not a GoDaddy parking IP.
+
+## Removed, not deleted
+Three sections came off the page on 2026-11-28 to cut its length: the capability grid
+("everything else"), the photo gallery ("around the place") and the monthly build log
+("from the ground up"). Harvest of the Month survived and moved into the Garden section.
+
+Their CSS is deliberately still in `styles.css` and the eight `gallery-*.jpg` files are
+still in `assets/img/`, because the gallery was taken out *for now* — putting it back is
+a block of markup, not a rebuild. `store-eggs/honey/meat/flowers/preserves.jpg` are also
+on disk unused, held for a farm-stand gallery that does not exist yet.

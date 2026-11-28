@@ -221,11 +221,24 @@ p:last-child{margin-bottom:0}
   opacity:0;transition:opacity 1.6s ease;
 }
 .hero__montage video.is-live{opacity:1}
+/* The hero cycles through photos of very different brightness -- a dark
+   golden-hour pasture, then bright green garden rows. The scrim therefore has
+   to hold the headline on the lightest frame, not the average one, so there is
+   a left-weighted wash under the text column on top of the vertical gradient.
+   Tuned against the brightest still in HERO_STILLS. */
 .hero__scrim{
   position:absolute;inset:0;
   background:
-    linear-gradient(180deg,rgba(26,23,20,.62) 0%,rgba(26,23,20,.18) 34%,rgba(26,23,20,.80) 100%),
-    radial-gradient(120% 80% at 20% 100%,rgba(26,23,20,.55),transparent 62%);
+    linear-gradient(90deg,rgba(26,23,20,.86) 0%,rgba(26,23,20,.66) 34%,rgba(26,23,20,.14) 68%,transparent 100%),
+    linear-gradient(180deg,rgba(26,23,20,.58) 0%,rgba(26,23,20,.20) 34%,rgba(26,23,20,.82) 100%),
+    radial-gradient(120% 80% at 20% 100%,rgba(26,23,20,.52),transparent 62%);
+}
+@media(max-width:780px){
+  /* No room for a text column on a phone: wash the whole frame instead. */
+  .hero__scrim{
+    background:
+      linear-gradient(180deg,rgba(26,23,20,.70) 0%,rgba(26,23,20,.52) 40%,rgba(26,23,20,.88) 100%);
+  }
 }
 .hero__in{position:relative;z-index:2;padding-block:clamp(40px,5.5vw,72px);color:var(--bone)}
 .hero__title{
@@ -969,4 +982,55 @@ html.js .reveal.in{opacity:1;transform:none}
 @media (max-width:780px){
   .ribbon{grid-template-columns:1fr}
   .ribbon__item{aspect-ratio:16/10}
+}
+
+/* ---- weather in the today strip ---------------------------------------
+   Sits as one more today__item. The icon is sized in ems so it tracks the
+   value text rather than needing its own breakpoint. */
+.today__item--wx .today__val{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.wx__icon{width:1.15em;height:1.15em;flex:none;opacity:.85}
+.wx__t{font-variant-numeric:tabular-nums}
+.wx__s{opacity:.78}
+.wx__hl{
+  font-size:.82em;
+  opacity:.6;
+  font-variant-numeric:tabular-nums;
+  white-space:nowrap;
+}
+
+/* ---- hero montage: crossfading stills ---------------------------------
+   The <img>s stack on the .hero__bg photo and fade between each other. The
+   slow scale is what keeps a still photo from reading as a dead screenshot;
+   it is deliberately small (1 -> 1.08 over 9s) because anything faster reads
+   as a slideshow effect rather than as the camera breathing. */
+.hero__montage img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  opacity:0;
+  transition:opacity 1.6s var(--ease);
+  will-change:opacity,transform;
+}
+.hero__montage img.is-live{
+  opacity:1;
+  animation:heroDrift 9s linear forwards;
+}
+.hero__montage img.is-alt.is-live{animation-name:heroDriftAlt}
+@keyframes heroDrift{
+  from{transform:scale(1.005) translate3d(0,0,0)}
+  to  {transform:scale(1.075) translate3d(-1.2%,-0.8%,0)}
+}
+@keyframes heroDriftAlt{
+  from{transform:scale(1.075) translate3d(1.2%,0.6%,0)}
+  to  {transform:scale(1.005) translate3d(0,0,0)}
+}
+@media (prefers-reduced-motion:reduce){
+  .hero__montage img{display:none}
+}
+@media(max-width:700px){
+  /* The strip scrolls sideways on a phone and the high/low is the first thing
+     to fall off the edge. Temperature and sky are the part people want. */
+  .wx__hl{display:none}
 }

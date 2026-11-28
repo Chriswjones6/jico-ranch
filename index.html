@@ -36,7 +36,7 @@
 <!-- ?v= is a cache buster. Browsers hold onto main.js, and a stale copy points
      at image files that no longer exist, which breaks the animal roster for
      anyone who visited before. Bump the date whenever you change either file. -->
-<link rel="stylesheet" href="assets/css/styles.css?v=20261127">
+<link rel="stylesheet" href="assets/css/styles.css?v=20261128">
 
 <!-- TODO before launch: confirm NAP (name/address/phone) matches the real ranch listing. -->
 <script type="application/ld+json">
@@ -465,6 +465,29 @@
       </div>
     </div>
   </div>
+    <div class="section__head section__head--center reveal" style="margin-top:76px;margin-bottom:30px">
+      <h3 class="dual dual--sm dual--sage">
+        <span class="dual__lead">Harvest of the month</span>
+        <span class="dual__main">Seed to basket.</span>
+      </h3>
+    </div>
+    <!-- Renders from the JOURNAL array in assets/js/main.js: the newest entry
+         with kind:"Harvest". Until one exists the panel below stands in for it
+         and JS hides the panel the moment the first crop is added. -->
+    <div class="journal reveal" id="journalLatest"></div>
+    <!-- Shown until the first entry with kind:"Harvest" lands. JS hides it then. -->
+    <div class="harvest__soon reveal" id="harvestSoon" style="margin-top:40px" hidden>
+      <div class="t">Harvest of the month starts with the first crop</div>
+      <p>Nothing has come out of the ground yet. When it does, this is where it goes — one crop a month, the variety we chose and why, a seed-to-basket timeline with the real dates, what the row actually yielded, and what to do with it once you get it home.</p>
+      <ul>
+        <li>Seed to basket, in days</li>
+        <li>Variety &amp; why we picked it</li>
+        <li>What the row yielded</li>
+        <li>How long picking lasts</li>
+        <li>What to do with it</li>
+      </ul>
+    </div>
+
 </section>
 
 <!-- ============================ EXPERIENCES ============================ -->
@@ -584,60 +607,6 @@
   </div>
 </section>
 
-<!-- ============================ EVERYTHING ELSE (capability grid) ============================ -->
-<section class="section section--ink" id="more">
-  <div class="wrap">
-    <div class="section__head reveal">
-      <div class="eyebrow-rule"></div>
-      <span class="kicker">Everything else</span>
-      <h2 class="dual dual--light">
-        <span class="dual__lead">The rest of what</span>
-        <span class="dual__main">Comes off this land.</span>
-      </h2>
-      <p class="section__lead">Not everything here is a ticketed visit. Some of it is just what a working ranch produces — and most of it is available to the public.</p>
-    </div>
-
-    <!-- EDIT: prune this grid down to what JICO Ranch actually offers. -->
-    <div class="caps">
-      <div class="cap reveal">
-        <span class="cap__n">01</span>
-        <h3 class="cap__t">Farm Stand &amp; Produce</h3>
-        <p class="cap__d">Eggs, seasonal produce, raw honey, cut flowers and preserves, sold on site whenever the gate is open.</p>
-      </div>
-      <div class="cap reveal">
-        <span class="cap__n">02</span>
-        <h3 class="cap__t">Pasture-Raised Meat</h3>
-        <p class="cap__d">Whole, half and by the cut as animals finish. Reserved ahead by phone — supply is honest, not endless.</p>
-      </div>
-      <div class="cap reveal">
-        <span class="cap__n">03</span>
-        <h3 class="cap__t">Hay, Feed &amp; Compost</h3>
-        <p class="cap__d">Square bales in season and finished compost from our own animals, sold by the bag or by the truckload.</p>
-      </div>
-      <div class="cap reveal">
-        <span class="cap__n">04</span>
-        <h3 class="cap__t">Plant Starts &amp; Seedlings</h3>
-        <p class="cap__d">Vegetable, herb and flower starts grown in our greenhouse for people putting in a garden at home.</p>
-      </div>
-      <div class="cap reveal">
-        <span class="cap__n">05</span>
-        <h3 class="cap__t">Education &amp; Homeschool</h3>
-        <p class="cap__d">Standing programs for school groups, homeschool co-ops and scout troops, built around real chores.</p>
-      </div>
-      <div class="cap reveal">
-        <span class="cap__n">06</span>
-        <h3 class="cap__t">Animal Sponsorship</h3>
-        <p class="cap__d">Membership that supports the animals and gets your family through the gate all year. <a href="#sponsor" style="color:var(--tan);text-decoration:underline">See the tiers</a>.</p>
-      </div>
-      <div class="cap reveal">
-        <span class="cap__n">07</span>
-        <h3 class="cap__t">Photography Sessions</h3>
-        <p class="cap__d">Family, senior and engagement sessions booked by the hour in the barn, the rows or the pasture.</p>
-      </div>
-                      </div>
-  </div>
-</section>
-
 <!-- ============================ THE LAND ============================ -->
 <!-- Purely visual beat between two dense text sections: the pasture, the
      orchard and the garden, side by side. Collapses to a single column on a
@@ -736,67 +705,6 @@
     </div>
     <!-- Renders from the EVENTS array in assets/js/main.js -->
     <div class="events reveal" id="eventList"></div>
-  </div>
-</section>
-
-<!-- ============================ FROM THE GROUND UP ============================
-     One entry a month. Right now it's a build journal; once there are crops,
-     set an entry's `kind` to "Harvest" in the JOURNAL array (top of main.js)
-     and the label on the page switches to "Harvest of the month".
-     Newest entry goes FIRST in the array.
-============================================================================= -->
-<section class="section" id="journal">
-  <div class="wrap">
-    <div class="section__head reveal">
-      <div class="eyebrow-rule"></div>
-      <span class="kicker">One a month</span>
-      <h2 class="dual">
-        <span class="dual__lead">Watch it happen.</span>
-        <span class="dual__main">From the ground up.</span>
-      </h2>
-      <p class="section__lead">One entry a month. Right now it's the build — what went in, what's next. Once the garden is producing it turns into the harvest of the month: what's ready, how we grew it, and exactly how long it took from seed to basket.</p>
-    </div>
-
-    <div class="journal reveal" id="journalLatest"></div>
-    <div class="journal__past reveal" id="journalPast"></div>
-
-    <!-- Shown until the first entry with kind:"Harvest" lands. JS hides it then. -->
-    <div class="harvest__soon reveal" id="harvestSoon" style="margin-top:40px" hidden>
-      <div class="t">Harvest of the month starts with the first crop</div>
-      <p>Nothing has come out of the ground yet. When it does, this is where it goes — one crop a month, the variety we chose and why, a seed-to-basket timeline with the real dates, what the row actually yielded, and what to do with it once you get it home.</p>
-      <ul>
-        <li>Seed to basket, in days</li>
-        <li>Variety &amp; why we picked it</li>
-        <li>What the row yielded</li>
-        <li>How long picking lasts</li>
-        <li>What to do with it</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<!-- ============================ GALLERY ============================ -->
-<section class="section section--tint" id="gallery">
-  <div class="wrap">
-    <div class="section__head section__head--center reveal">
-      <div class="eyebrow-rule"></div>
-      <span class="kicker">Around the place</span>
-      <h2 class="dual dual--sm">
-        <span class="dual__lead">No stock photos.</span>
-        <span class="dual__main">Just the ranch.</span>
-      </h2>
-      <p class="section__lead" style="margin-inline:auto">Real photos go in here as we take them — animals, rows, the barn, and the people who show up.</p>
-    </div>
-    <div class="gallery reveal">
-      <a href="#gallery"><img src="assets/img/gallery-1.jpg" alt="A horse behind the pasture fence at golden hour" loading="lazy"></a>
-      <a href="#gallery"><img src="assets/img/gallery-2.jpg" alt="Dappled light down a row of orchard trees" loading="lazy"></a>
-      <a href="#gallery"><img src="assets/img/gallery-3.jpg" alt="Rows of leafy greens in the garden" loading="lazy"></a>
-      <a href="#gallery"><img src="assets/img/gallery-4.jpg" alt="The barn under an open sky" loading="lazy"></a>
-      <a href="#gallery"><img src="assets/img/gallery-5.jpg" alt="Seedlings coming on in the greenhouse" loading="lazy"></a>
-      <a href="#gallery"><img src="assets/img/gallery-6.jpg" alt="A field of mixed cutting flowers" loading="lazy"></a>
-      <a href="#gallery"><img src="assets/img/gallery-7.jpg" alt="The fence line and the trees along the drive" loading="lazy"></a>
-      <a href="#gallery"><img src="assets/img/gallery-8.jpg" alt="Beehives at the edge of the field" loading="lazy"></a>
-                            </div>
   </div>
 </section>
 
@@ -1059,9 +967,8 @@
           <li><a href="#animals">The animals</a></li>
           <li><a href="#sponsor">Sponsor an animal</a></li>
           <li><a href="#garden">The garden</a></li>
-          <li><a href="#more">Everything else</a></li>
           <li><a href="#store">Farm stand</a></li>
-          <li><a href="#journal">From the ground up</a></li>
+          <li><a href="#growing">Harvest of the month</a></li>
           <li><a href="#about">Our story</a></li>
         </ul>
       </div>
@@ -1096,6 +1003,6 @@
   <a class="s-visit" href="#plan">Follow the Build</a>
 </div>
 
-<script src="assets/js/main.js?v=20261127" defer></script>
+<script src="assets/js/main.js?v=20261128" defer></script>
 </body>
 </html>

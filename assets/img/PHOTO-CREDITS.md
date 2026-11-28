@@ -15,6 +15,9 @@ thing. To replace one, drop a photo with the same filename into `assets/img/`
 | `hero-ranch.jpg` | Horses grazing in a golden pasture at sunset | [photo-1783267152430-858da5c62a9d](https://unsplash.com/photos/1783267152430-858da5c62a9d) |
 | `pillar-animals.jpg` | Horses grazing in a grassy pasture beside a barn | [photo-1787157365530-b4d506d98bfe](https://unsplash.com/photos/1787157365530-b4d506d98bfe) |
 | `pillar-garden.jpg` | Rows of vegetables in the market garden | [photo-1702995878564-17fef6fa4e57](https://unsplash.com/photos/1702995878564-17fef6fa4e57) |
+| `hero-2-goats.jpg` | A goat looking over the pasture fence | [photo-1758391634501-3030c658d143](https://unsplash.com/photos/1758391634501-3030c658d143) |
+| `hero-3-picking.jpg` | Cutting greens straight off the row | [photo-1755353545133-9a8956d1b0ea](https://unsplash.com/photos/1755353545133-9a8956d1b0ea) |
+| `hero-4-donkey.jpg` | A donkey grazing in a sunlit field | [photo-1789314957667-26c9a6275a08](https://unsplash.com/photos/1789314957667-26c9a6275a08) |
 | `scene-horses-fence.jpg` | A horse looking out over the wooden pasture fence | [photo-1769022633296-f6b1ab2f850e](https://unsplash.com/photos/1769022633296-f6b1ab2f850e) |
 | `scene-orchard.jpg` | Rows of fruit trees running away down the orchard | [photo-1635778528589-b5df9e10d7cd](https://unsplash.com/photos/1635778528589-b5df9e10d7cd) |
 | `scene-garden-wide.jpg` | Garden rows running out toward the treeline | [photo-1516906561371-53f48df1254d](https://unsplash.com/photos/1516906561371-53f48df1254d) |
@@ -45,8 +48,6 @@ thing. To replace one, drop a photo with the same filename into `assets/img/`
 | `store-flowers.jpg` | A cut flower bouquet in a jar | [photo-1617417715887-d51297ecdbca](https://unsplash.com/photos/1617417715887-d51297ecdbca) |
 | `store-preserves.jpg` | Shelves of put-up preserves in jars | [photo-1695136219547-1fd5c21a1e71](https://unsplash.com/photos/1695136219547-1fd5c21a1e71) |
 | `story-family.jpg` | Leaning on the fence line at sunrise | [photo-1791395533950-7e07f40cb224](https://unsplash.com/photos/1791395533950-7e07f40cb224) |
-| `journal-1.jpg` | Wheeling a barrow of fresh-cut greens out of the garden | [photo-1784350725398-99590fac1e3c](https://unsplash.com/photos/1784350725398-99590fac1e3c) |
-| `journal-2.jpg` | Putting plants in the ground out in the field | [photo-1761634373241-5abcfcaa0c39](https://unsplash.com/photos/1761634373241-5abcfcaa0c39) |
 | `gallery-1.jpg` | A horse behind the pasture fence at golden hour | [photo-1794191991285-9db002156f34](https://unsplash.com/photos/1794191991285-9db002156f34) |
 | `gallery-2.jpg` | Dappled light down a row of orchard trees | [photo-1789585803622-e8938a1e123a](https://unsplash.com/photos/1789585803622-e8938a1e123a) |
 | `gallery-3.jpg` | Rows of leafy greens in the garden | [photo-1529313780224-1a12b68bed16](https://unsplash.com/photos/1529313780224-1a12b68bed16) |

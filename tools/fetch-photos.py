@@ -37,6 +37,18 @@ BANDS = [
      "Rows of vegetables in the market garden"),
 ]
 
+# Hero montage stills. Same photos as elsewhere on the page but cut wide for
+# full-bleed, because the hero crossfades through them: horses, then the
+# goats, then something coming out of the garden.
+HERO_STILLS = [
+    ("hero-2-goats.jpg", "photo-1758391634501-3030c658d143", 2000, 1125,
+     "A goat looking over the pasture fence"),
+    ("hero-3-picking.jpg", "photo-1755353545133-9a8956d1b0ea", 2000, 1125,
+     "Cutting greens straight off the row"),
+    ("hero-4-donkey.jpg", "photo-1789314957667-26c9a6275a08", 2000, 1125,
+     "A donkey grazing in a sunlit field"),
+]
+
 # The three-up land strip.
 RIBBON = [
     ("scene-horses-fence.jpg", "photo-1769022633296-f6b1ab2f850e", 1400, 933,
@@ -107,10 +119,6 @@ CARDS = [
 
     ("story-family.jpg", "photo-1791395533950-7e07f40cb224", 1200, 800,
      "Leaning on the fence line at sunrise"),
-    ("journal-1.jpg", "photo-1784350725398-99590fac1e3c", 1200, 800,
-     "Wheeling a barrow of fresh-cut greens out of the garden"),
-    ("journal-2.jpg", "photo-1761634373241-5abcfcaa0c39", 1200, 800,
-     "Putting plants in the ground out in the field"),
 ]
 
 # Square gallery tiles.
@@ -133,7 +141,7 @@ GALLERY = [
      "Beehives out at the edge of the field"),
 ]
 
-MANIFEST = BANDS + RIBBON + CARDS + GALLERY
+MANIFEST = BANDS + HERO_STILLS + RIBBON + CARDS + GALLERY
 
 SRC = "https://images.unsplash.com/%s?w=%d&h=%d&fit=crop&crop=entropy&q=85&fm=jpg"
 # A plain client name. Never send anything identifying the user.

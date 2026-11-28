@@ -51,13 +51,31 @@ const RANCH = {
   ]
 };
 
-/* --- Hero video clips ----------------------------------------------------
-   Drop .mp4 files in assets/video/ and list their filenames here. They'll
-   crossfade behind the headline. Leave the array empty to use the still photo. */
+/* --- The hero ------------------------------------------------------------
+   Two ways to put motion behind the headline, and video wins if it is there.
+
+   HERO_CLIPS  real footage. Drop .mp4 files in assets/video/ and list the
+               filenames. They crossfade, muted, and loop round.
+
+   HERO_STILLS photographs that crossfade with a slow drift across them.
+               This is the fallback until there is real footage, and it is
+               what is running now. Order tells a small story: the horses,
+               then the goats, then something coming out of the garden.
+
+   Either list can be emptied. With both empty the hero is just the still
+   background image set on .hero__bg in index.html.
+   ------------------------------------------------------------------------ */
 const HERO_CLIPS = [
   // "hero-pasture.mp4",
-  // "hero-garden-rows.mp4",
-  // "hero-barnyard.mp4"
+  // "hero-barnyard.mp4",
+  // "hero-garden-rows.mp4"
+];
+
+const HERO_STILLS = [
+  "hero-ranch.jpg",       // horses out in the pasture at golden hour
+  "hero-2-goats.jpg",     // a goat at the fence
+  "hero-3-picking.jpg",   // cutting greens off the row
+  "hero-4-donkey.jpg"     // the donkey in the sun
 ];
 
 /* --- The animal roster ---------------------------------------------------
@@ -94,39 +112,44 @@ const EVENTS = [
     text:"Coop setup, feed, predators and the honest cost of a home egg. 16 seats." }
 ];
 
-/* --- From the Ground Up / Harvest of the Month ---------------------------
-   One entry a month, NEWEST FIRST. Two kinds of entry share the section:
+/* --- Weather at the ranch ------------------------------------------------
+   National Weather Service, for the grid cell that covers 2407 Highway 66.
+   Public-domain US government data: no API key, no account, no usage limit
+   and nothing to renew or pay for. The grid cell is about 2.5km square, so
+   this is the forecast for the ranch itself rather than a city 20 miles off.
 
-   kind: "Build"    a note on building the ranch out. Needs month, title, img,
-                    body, and optional facts (2-4 [label, value] pairs).
+   To move it, open https://api.weather.gov/points/<lat>,<lon> and copy the
+   two URLs out of the response. Current cell = ILM 56,63 (34.0563,-78.8903).
+   ------------------------------------------------------------------------ */
+const WEATHER = {
+  hourly : "https://api.weather.gov/gridpoints/ILM/56,63/forecast/hourly",
+  daily  : "https://api.weather.gov/gridpoints/ILM/56,63/forecast"
+};
 
-   kind: "Harvest"  the full harvest treatment. Adds:
+/* --- Harvest of the Month ------------------------------------------------
+   One crop a month, NEWEST FIRST. Empty is fine: while this array has no
+   entries the "starts with the first crop" panel shows in its place, and it
+   hides itself the moment you add one.
+
+   Each entry needs:
+     month     "June 2027"
      crop      what it is, used as the headline
      variety   the specific variety, small caps under the headline
+     img       a photo in assets/img/
+     body      a paragraph about it
      timeline  { sown, planted, firstPick } as "YYYY-MM-DD".
-               `planted` (transplant date) is optional — leave it out for
-               anything direct-sown. Days to harvest is CALCULATED from sown
-               to firstPick, so never type it in by hand.
+               `planted` (the transplant date) is optional -- leave it out for
+               anything direct-sown. Days to harvest is CALCULATED from sown to
+               firstPick, so never type that number in by hand.
      yield     what came off it
      window    how long picking lasts
      grown     how it was grown
      use       what to do with it once you get it home
 
-   A worked example is at the bottom of this file under HARVEST_EXAMPLE —
+   A filled-in example sits at the bottom of this file under HARVEST_EXAMPLE --
    copy it to the top of this array when the first crop comes in.
    ------------------------------------------------------------------------ */
-const JOURNAL = [
-  {
-    kind  : "Build",
-    month : "November 2026",
-    title : "We closed on 145 acres",
-    img   : "journal-1.jpg",
-    body  : "The paperwork is done and the land is ours. It came out of a larger " +
-            "parcel on Highway 66, which is why we have a brand new address. First " +
-            "job is the perimeter: clearing the fence line, setting corners, and " +
-            "getting water run before anything with four legs shows up.",
-    facts : [["Acres", "145"], ["County", "Horry"], ["First job", "Fencing"]]
-  }
+const HARVESTS = [
 ];
 
 /* --- Season calendar -----------------------------------------------------
@@ -206,37 +229,79 @@ const esc = s => String(s).replace(/[&<>"]/g, m => ({'&':'&amp;','<':'&lt;','>':
    ========================================================================== */
 (function montage(){
   const host = $('#heroMontage');
-  if (!host || !HERO_CLIPS.length) return;
+  if (!host) return;
+  // A still hero is the honest default when someone has asked for less motion.
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  const vids = HERO_CLIPS.map((src, i) => {
-    const v = document.createElement('video');
-    v.src = 'assets/video/' + src;
-    v.muted = true; v.loop = false; v.playsInline = true;
-    v.preload = i === 0 ? 'auto' : 'none';
-    host.appendChild(v);
-    return v;
+  /* ---------- real footage, if we have any ---------- */
+  if (HERO_CLIPS.length){
+    const vids = HERO_CLIPS.map((src, i) => {
+      const v = document.createElement('video');
+      v.src = 'assets/video/' + src;
+      v.muted = true; v.loop = false; v.playsInline = true;
+      v.preload = i === 0 ? 'auto' : 'none';
+      host.appendChild(v);
+      return v;
+    });
+
+    let i = 0;
+    const show = n => {
+      vids.forEach((v, k) => v.classList.toggle('is-live', k === n));
+      const v = vids[n];
+      v.currentTime = 0;
+      v.play().catch(() => {});
+      vids[(n + 1) % vids.length].preload = 'auto';
+    };
+    vids.forEach((v, n) => {
+      v.addEventListener('ended', () => { i = (n + 1) % vids.length; show(i); });
+      // safety net if a clip is very long
+      v.addEventListener('timeupdate', () => {
+        if (v.duration && v.currentTime > Math.min(v.duration, 9) && v.classList.contains('is-live')){
+          v.dispatchEvent(new Event('ended'));
+        }
+      });
+    });
+    show(0);
+    return;
+  }
+
+  /* ---------- otherwise, crossfade the stills ---------- */
+  if (HERO_STILLS.length < 2) return;
+
+  const HOLD = 6000;   // ms each photo is held, before a 1.6s CSS crossfade
+
+  // The first frame is the same photo as the CSS background, so the swap to
+  // the montage layer is invisible and nothing flashes on load.
+  const imgs = HERO_STILLS.map((src, i) => {
+    const im = new Image();
+    im.src = 'assets/img/' + src;
+    im.alt = '';
+    im.decoding = 'async';
+    // Only the first is wanted immediately; the rest can wait for idle time
+    // rather than competing with the headline and the rest of the page.
+    if (i) im.loading = 'lazy';
+    if (i % 2) im.classList.add('is-alt');   // alternate the drift direction
+    host.appendChild(im);
+    return im;
   });
 
   let i = 0;
-  const show = n => {
-    vids.forEach((v, k) => v.classList.toggle('is-live', k === n));
-    const v = vids[n];
-    v.currentTime = 0;
-    v.play().catch(() => {});
-    const next = (n + 1) % vids.length;
-    vids[next].preload = 'auto';
+  imgs[0].classList.add('is-live');
+
+  const tick = () => {
+    const next = (i + 1) % imgs.length;
+    imgs[i].classList.remove('is-live');
+    imgs[next].classList.add('is-live');
+    i = next;
   };
-  vids.forEach((v, n) => {
-    v.addEventListener('ended', () => { i = (n + 1) % vids.length; show(i); });
-    // safety net if a clip is very long
-    v.addEventListener('timeupdate', () => {
-      if (v.duration && v.currentTime > Math.min(v.duration, 9) && v.classList.contains('is-live')){
-        v.dispatchEvent(new Event('ended'));
-      }
-    });
+
+  let timer = setInterval(tick, HOLD);
+  // Nothing to animate while the tab is in the background, and leaving it
+  // running means coming back to a pile of queued transitions.
+  document.addEventListener('visibilitychange', () => {
+    clearInterval(timer);
+    if (!document.hidden) timer = setInterval(tick, HOLD);
   });
-  show(0);
 })();
 
 /* ==========================================================================
@@ -491,29 +556,122 @@ const esc = s => String(s).replace(/[&<>"]/g, m => ({'&':'&amp;','<':'&lt;','>':
 })();
 
 /* ==========================================================================
-   from the ground up — newest entry large, the rest as a strip
+   weather at the ranch — appended to the today strip
+   ==========================================================================
+   Appended rather than written into index.html because the strip rebuilds
+   itself for pre-opening vs open, and anything sitting in the markup gets
+   overwritten. Fails silently: if NWS is down the item simply never appears,
+   which is better than a live-looking widget showing a stale or empty number.
    ========================================================================== */
-(function journal(){
-  const host = $('#journalLatest'), past = $('#journalPast'), soon = $('#harvestSoon');
+(function weather(){
+  const items = $('.today__items');
+  if (!items || !WEATHER.hourly) return;
+
+  const CACHE_KEY = 'jr-wx', CACHE_MS = 15 * 60 * 1000;
+
+  // Five shapes is enough to read at this size. Anything not matched gets the
+  // cloud, which is the safest wrong answer.
+  const ICONS = {
+    sun  : '<circle cx="12" cy="12" r="4.4"/><g stroke-width="1.7" stroke-linecap="round"><path d="M12 2.6v2.6M12 18.8v2.6M2.6 12h2.6M18.8 12h2.6M5.3 5.3l1.9 1.9M16.8 16.8l1.9 1.9M18.7 5.3l-1.9 1.9M7.2 16.8l-1.9 1.9"/></g>',
+    cloud: '<path d="M7 18h10.2a3.8 3.8 0 0 0 .4-7.6A5.6 5.6 0 0 0 6.9 11 3.5 3.5 0 0 0 7 18Z"/>',
+    rain : '<path d="M7.4 15h9.8a3.5 3.5 0 0 0 .3-7A5.2 5.2 0 0 0 7.3 8.4 3.3 3.3 0 0 0 7.4 15Z"/><g stroke-width="1.8" stroke-linecap="round"><path d="M9 18.2l-.8 2.2M13 18.2l-.8 2.2M17 18.2l-.8 2.2"/></g>',
+    snow : '<path d="M7.4 15h9.8a3.5 3.5 0 0 0 .3-7A5.2 5.2 0 0 0 7.3 8.4 3.3 3.3 0 0 0 7.4 15Z"/><g stroke-width="1.8" stroke-linecap="round"><path d="M9 19h.01M13 20h.01M17 19h.01"/></g>',
+    fog  : '<g stroke-width="1.8" stroke-linecap="round"><path d="M4 9h16M6 13h14M4 17h12"/></g>'
+  };
+  const pick = (sky, isDay) => {
+    const t = (sky || '').toLowerCase();
+    if (/snow|sleet|ice|wintry/.test(t))              return 'snow';
+    if (/rain|shower|storm|thunder|drizzle/.test(t))  return 'rain';
+    if (/fog|haze|mist|smoke/.test(t))                return 'fog';
+    if (/cloud|overcast/.test(t))                     return 'cloud';
+    return isDay ? 'sun' : 'cloud';
+  };
+  const svg = k => `<svg class="wx__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.6" stroke-linejoin="round" aria-hidden="true">${ICONS[k]}</svg>`;
+
+  function paint(d){
+    const el = document.createElement('div');
+    el.className = 'today__item today__item--wx';
+    const extra = [
+      d.pop != null && d.pop > 0 ? d.pop + '% rain' : null,
+      d.wind ? d.wind + ' ' + (d.dir || '') : null
+    ].filter(Boolean).join(' · ');
+    el.innerHTML = `<span class="today__label">At the ranch</span>
+      <span class="today__val wx">${svg(pick(d.sky, d.isDay))}
+        <span class="wx__t">${esc(String(d.temp))}°</span>
+        <span class="wx__s">${esc(d.sky)}</span>
+        ${d.hi != null || d.lo != null ? `<span class="wx__hl">${
+          d.hi != null ? 'H ' + d.hi + '°' : ''}${d.hi != null && d.lo != null ? ' / ' : ''}${
+          d.lo != null ? 'L ' + d.lo + '°' : ''}</span>` : ''}
+      </span>`;
+    if (extra) el.title = extra;
+    items.appendChild(el);
+  }
+
+  function cached(){
+    try {
+      const raw = sessionStorage.getItem(CACHE_KEY);
+      if (!raw) return null;
+      const o = JSON.parse(raw);
+      return (Date.now() - o.at < CACHE_MS) ? o.d : null;
+    } catch (e){ return null; }
+  }
+
+  const hit = cached();
+  if (hit){ paint(hit); return; }
+
+  const get = u => fetch(u).then(r => r.ok ? r.json() : Promise.reject(r.status));
+
+  Promise.all([
+    get(WEATHER.hourly),
+    WEATHER.daily ? get(WEATHER.daily).catch(() => null) : Promise.resolve(null)
+  ]).then(([h, day]) => {
+    const p = h && h.properties && h.properties.periods && h.properties.periods[0];
+    if (!p) return;
+
+    // The daily feed alternates day and night periods. Take the first of each
+    // kind rather than periods[0]/[1], which flip over through the evening.
+    let hi = null, lo = null;
+    const dp = day && day.properties && day.properties.periods || [];
+    for (const q of dp.slice(0, 3)){
+      if (q.isDaytime && hi == null) hi = q.temperature;
+      if (!q.isDaytime && lo == null) lo = q.temperature;
+    }
+
+    const d = {
+      temp : p.temperature,
+      sky  : p.shortForecast,
+      isDay: p.isDaytime,
+      wind : p.windSpeed,
+      dir  : p.windDirection,
+      pop  : p.probabilityOfPrecipitation && p.probabilityOfPrecipitation.value,
+      hi, lo
+    };
+    try { sessionStorage.setItem(CACHE_KEY, JSON.stringify({ at: Date.now(), d })); } catch (e){}
+    paint(d);
+  }).catch(() => {});
+})();
+
+/* ==========================================================================
+   harvest of the month — the newest crop, in full
+   ========================================================================== */
+(function harvest(){
+  const host = $('#journalLatest'), soon = $('#harvestSoon');
   if (!host) return;
 
-  if (!JOURNAL.length){ if (soon) soon.hidden = false; return; }
-
-  const [latest, ...rest] = JOURNAL;
+  const latest = HARVESTS[0];
+  // Nothing picked yet: say what will go here rather than hide the idea.
+  if (soon) soon.hidden = !!latest;
+  if (!latest) return;
 
   // local-date parse: "2027-03-28" must not drift a day on a UTC parse
   const d = iso => { const [y,m,day] = iso.split('-').map(Number); return new Date(y, m-1, day); };
   const fmt = dt => dt.toLocaleDateString('en-US', { month:'short', day:'numeric' });
   const days = (a1, b1) => Math.round((d(b1) - d(a1)) / 86400000);
 
-  const factsRow = f => (f || []).length
-    ? `<dl class="journal__facts">${f.map(([k,v]) =>
-        `<div class="journal__fact"><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl>`
-    : '';
-
   function timeline(t){
-    // markers sit at their true proportional position, so a fast crop and a
-    // slow one look different at a glance
+    // markers sit at their true proportional position, so a 54-day radish and
+    // a 110-day melon visibly differ
     const pts = [['Sown', t.sown], t.planted && ['Planted out', t.planted], ['First pick', t.firstPick]]
       .filter(Boolean);
     const span = days(t.sown, t.firstPick) || 1;
@@ -531,55 +689,31 @@ const esc = s => String(s).replace(/[&<>"]/g, m => ({'&':'&amp;','<':'&lt;','>':
       </div>`;
   }
 
-  if (latest.kind === 'Harvest'){
-    const t = latest.timeline;
-    // days-to-harvest is on the timeline above and the variety sits under the
-    // crop name, so neither is repeated here
-    const facts = [
-      latest.yield  && ['Yield', latest.yield],
-      latest.window && ['Picking window', latest.window]
-    ].filter(Boolean);
+  // days-to-harvest is on the timeline and the variety sits under the crop
+  // name, so neither gets repeated down here
+  const facts = [
+    latest.yield  && ['Yield', latest.yield],
+    latest.window && ['Picking window', latest.window]
+  ].filter(Boolean);
 
-    host.innerHTML = `
-      <div class="journal__media">
-        <img src="assets/img/${esc(latest.img)}" alt="${esc(latest.crop)}" loading="lazy">
-      </div>
-      <div>
-        <span class="journal__kind">Harvest of the month</span>
-        <div class="journal__month">${esc(latest.month)}</div>
-        <h3 class="journal__title">${esc(latest.crop)}</h3>
-        ${latest.variety ? `<div class="harvest__variety">${esc(latest.variety)}</div>` : ''}
-        <p class="journal__body">${esc(latest.body || '')}</p>
-        ${t ? timeline(t) : ''}
-        ${factsRow(facts)}
-        ${(latest.grown || latest.use) ? `<div class="harvest__cols">
-          ${latest.grown ? `<div class="harvest__col"><h4>How we grew it</h4><p>${esc(latest.grown)}</p></div>` : ''}
-          ${latest.use   ? `<div class="harvest__col"><h4>What to do with it</h4><p>${esc(latest.use)}</p></div>` : ''}
-        </div>` : ''}
-      </div>`;
-  } else {
-    host.innerHTML = `
-      <div class="journal__media">
-        <img src="assets/img/${esc(latest.img)}" alt="${esc(latest.title)}" loading="lazy">
-      </div>
-      <div>
-        <span class="journal__kind">From the ground up</span>
-        <div class="journal__month">${esc(latest.month)}</div>
-        <h3 class="journal__title">${esc(latest.title)}</h3>
-        <p class="journal__body">${esc(latest.body)}</p>
-        ${factsRow(latest.facts)}
-      </div>`;
-  }
-
-  // nothing has been harvested yet — say so rather than hide the idea
-  if (soon) soon.hidden = JOURNAL.some(e => e.kind === 'Harvest');
-
-  if (past){
-    past.innerHTML = rest.map(e => `<a href="#journal">
-        <div class="m">${esc(e.month)}</div>
-        <div class="t">${esc(e.crop || e.title)}</div>
-      </a>`).join('');
-  }
+  host.innerHTML = `
+    <div class="journal__media">
+      <img src="assets/img/${esc(latest.img)}" alt="${esc(latest.crop)}" loading="lazy">
+    </div>
+    <div>
+      <span class="journal__kind">Harvest of the month</span>
+      <div class="journal__month">${esc(latest.month)}</div>
+      <h3 class="journal__title">${esc(latest.crop)}</h3>
+      ${latest.variety ? `<div class="harvest__variety">${esc(latest.variety)}</div>` : ''}
+      <p class="journal__body">${esc(latest.body || '')}</p>
+      ${latest.timeline ? timeline(latest.timeline) : ''}
+      ${facts.length ? `<dl class="journal__facts">${facts.map(([k,v]) =>
+        `<div class="journal__fact"><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl>` : ''}
+      ${(latest.grown || latest.use) ? `<div class="harvest__cols">
+        ${latest.grown ? `<div class="harvest__col"><h4>How we grew it</h4><p>${esc(latest.grown)}</p></div>` : ''}
+        ${latest.use   ? `<div class="harvest__col"><h4>What to do with it</h4><p>${esc(latest.use)}</p></div>` : ''}
+      </div>` : ''}
+    </div>`;
 })();
 
 /* ==========================================================================
@@ -590,12 +724,11 @@ $('#year') && ($('#year').textContent = new Date().getFullYear());
 
 /* ==========================================================================
    HARVEST_EXAMPLE — a filled-in harvest entry.
-   Copy this object to the TOP of the JOURNAL array when the first crop comes
+   Copy this object to the TOP of the HARVESTS array when the first crop comes
    in, delete this block, and the section switches itself over. Nothing below
    runs; it is here purely as a template.
    ==========================================================================
 const HARVEST_EXAMPLE = {
-  kind    : "Harvest",
   month   : "June 2027",
   crop    : "Sweet Corn",
   variety : "Silver Queen",
