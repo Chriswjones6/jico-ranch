@@ -182,6 +182,49 @@ will override the A records and the site won't resolve.
 DNS usually propagates in 10–60 minutes. Check with `nslookup jicoranch.com` — you want
 the 185.199.x.153 addresses back, not a GoDaddy parking IP.
 
+## Extra pages
+
+Both are standalone, both carry `noindex` for now, and neither is linked from the
+homepage nav yet.
+
+### `/planting.html` — what to plant this week
+Clemson HGIC 1256's planting chart for the **coastal region** (the one Horry County is
+in), transcribed verbatim from the Feb 2021 revision into `assets/js/planting.js`: all
+43 crops, both footnotes ("from transplants", "plant in succession") and the "not
+recommended" entries. The page works out the current week from today's date, so it is
+correct every morning with nobody touching it.
+
+**The data must only ever change to match Clemson.** A planting tool with invented dates
+is worse than no tool — somebody sows on its say-so and loses a crop. If a date looks
+wrong, check `hgic.clemson.edu` and change it here with a note.
+
+`WEEK_MODE` at the top of the render function picks `'sunday'` (the calendar week today
+falls in, current setting) or `'rolling'` (today plus six days). Rolling is always
+actionable; Sunday is more legible and shareable. Crops opening later in the week show
+"Opens Thursday" rather than a countdown that has not started. The "opening next" list
+groups by date, because Clemson starts fourteen coastal crops on Feb 1 and listing them
+separately read as fourteen identical lines.
+
+### `/kit.html` — the kit, and the only affiliate links on the site
+Deliberately one page, kept away from the animal and sponsorship pages: "support this
+goat" next to "buy its feed through our link" costs more trust than the commission is
+worth.
+
+**The rule:** never let the affiliate program decide what gets listed. List what was
+actually bought and actually used, keep the entries that got dropped, and say why they
+were dropped — the switches are the useful part.
+
+Two things before it earns anything:
+1. `AFFILIATE.amazonTag` in `assets/js/kit.js` — your Amazon Associates ID. While it is
+   empty, items render as plain text with no link, so nothing breaks and no untagged
+   traffic goes to Amazon.
+2. Real entries in `KIT`. It ships empty on purpose; a worked example sits below the
+   array as `KIT_EXAMPLE`.
+
+Amazon links get `rel="sponsored nofollow noopener"` and an "affiliate link" label on the
+link itself; anything else gets "no commission". The disclosure sits above the list and
+hides itself when there is nothing to disclose.
+
 ## Removed, not deleted
 Five blocks came off the page on 2026-11-28 to cut its length: the capability grid
 ("everything else"), the photo gallery ("around the place"), the monthly build log

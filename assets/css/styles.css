@@ -1144,3 +1144,65 @@ th .pz-tag{margin-left:8px}
 }
 .pz-card--later{border-left-color:var(--tan-2,#C9B295);opacity:.92}
 .pz-card--later .pz-left{color:var(--ink);opacity:.6}
+/* grouped "opening next": the date is the headline, the crops are the detail */
+.pz-soon__head{display:flex;align-items:baseline;gap:12px;width:100%}
+.pz-soon__date{font-weight:600;font-size:16px}
+.pz-soon__crops{width:100%;margin-top:3px;font-size:14.5px;opacity:.72;line-height:1.5}
+
+/* ========================================================================
+   THE KIT  (kit.html)  — the one page carrying affiliate links
+   ===================================================================== */
+.kit-disc{
+  margin:0 0 40px;
+  padding:16px 18px;
+  background:rgba(110,130,89,.10);
+  border-left:3px solid var(--sage);
+  border-radius:4px;
+  font-family:var(--sans);
+  font-size:14.5px;
+  line-height:1.65;
+  max-width:78ch;
+}
+.kit-area{margin-bottom:52px}
+.kit-area__t{
+  font-family:var(--serif);
+  font-size:clamp(21px,2.4vw,27px);
+  font-weight:500;
+  padding-bottom:9px;
+  border-bottom:1px solid rgba(26,23,20,.16);
+}
+.kit-area__b{margin-top:9px;font-family:var(--sans);font-size:15px;opacity:.7;max-width:66ch}
+.kit-grid{margin-top:20px;display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px}
+.kit-card{
+  background:var(--paper);
+  border:1px solid rgba(26,23,20,.10);
+  border-radius:4px;
+  padding:18px 18px 16px;
+}
+/* A dropped product stays on the page -- that is the honest part -- but it
+   should not read as a current recommendation. */
+.kit-card--dropped{opacity:.72;border-style:dashed}
+.kit-card__h{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+.kit-card h3{font-family:var(--serif);font-size:19px;font-weight:500;line-height:1.25}
+.kit-flag{
+  font-family:var(--sans);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--rust);flex:none;
+}
+.kit-brand{margin-top:7px;font-family:var(--sans);font-size:15px;font-weight:500}
+.kit-brand a{color:var(--moss);text-decoration:underline;text-underline-offset:2px}
+/* Say which links pay us, on the link itself, not only in the disclosure. */
+.kit-paid{
+  display:inline-block;margin-left:7px;
+  font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+  font-weight:400;opacity:.52;white-space:nowrap;
+}
+.kit-spec{margin-top:4px;font-family:var(--sans);font-size:13.5px;opacity:.65}
+.kit-why,.kit-note{margin-top:11px;font-family:var(--sans);font-size:14.5px;line-height:1.6}
+.kit-why strong{font-weight:600}
+.kit-note{
+  padding-top:10px;
+  border-top:1px solid rgba(26,23,20,.09);
+  opacity:.78;font-style:italic;
+}
+.kit-price{margin-top:11px;font-family:var(--sans);font-size:13px;letter-spacing:.04em;color:var(--moss)}
+@media(max-width:600px){ .kit-grid{grid-template-columns:1fr} }

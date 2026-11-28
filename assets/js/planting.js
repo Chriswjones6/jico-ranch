@@ -126,7 +126,7 @@ const dayInWindow = (w, doy) => {
      Built as seven real Date objects rather than arithmetic on day-of-year
      numbers: a week can straddle the end of the year, and iterating actual
      dates sidesteps every wrap-around bug that would otherwise need handling. */
-  const WEEK_MODE = 'rolling';
+  const WEEK_MODE = 'sunday';
 
   const weekStart = new Date(now);
   weekStart.setHours(0,0,0,0);
@@ -172,12 +172,23 @@ const dayInWindow = (w, doy) => {
   const nowList   = rows.filter(r => r.openNow)
                       .sort((a, b) => (a.openNow.open ? 0 : 1) - (b.openNow.open ? 0 : 1)
                                    || a.openNow.left - b.openNow.left);
-  // Always show what is coming, however far off. A hard 45-day cutoff left
-  // this section empty every winter, which is exactly when a gardener is
-  // sitting indoors planning next year.
-  const soonList  = rows.filter(r => !r.openNow && r.next)
-                        .sort((a, b) => a.next.until - b.next.until)
-                        .slice(0, 8);
+  /* What is coming, grouped by the day it opens.
+
+     Always show something, however far off: a hard 45-day cutoff left this
+     section empty all winter, which is exactly when a gardener is indoors
+     planning next year. But listed crop-by-crop it read as eight identical
+     lines all saying "opens Feb 1" -- Clemson's coastal chart starts a lot of
+     things on the same date, so the date is the fact and the crops are the
+     detail. Grouping says it once. */
+  const groups = [];
+  rows.filter(r => !r.openNow && r.next)
+      .sort((a, b) => a.next.until - b.next.until)
+      .forEach(r => {
+        const last = groups[groups.length - 1];
+        if (last && last.from === r.next.from) last.crops.push(r);
+        else groups.push({ from: r.next.from, until: r.next.until, crops: [r] });
+      });
+  const soonGroups = groups.slice(0, 4);
 
   const el = id => document.getElementById(id);
   const tag = r => [
@@ -216,11 +227,14 @@ const dayInWindow = (w, doy) => {
   el('pzNowCount').textContent = nowList.length;
 
   /* ---- opening soon ---- */
-  el('pzSoon').innerHTML = soonList.length
-    ? soonList.map(r => `<li>
-        <span class="pz-soon__crop">${r.crop}</span>
-        <span class="pz-soon__when">opens ${r.next.from}</span>
-        <span class="pz-soon__in">in ${r.next.until} day${r.next.until === 1 ? '' : 's'}</span>
+  el('pzSoon').innerHTML = soonGroups.length
+    ? soonGroups.map(g => `<li>
+        <div class="pz-soon__head">
+          <span class="pz-soon__date">${g.from}</span>
+          <span class="pz-soon__in">in ${g.until} day${g.until === 1 ? '' : 's'}</span>
+        </div>
+        <div class="pz-soon__crops">${g.crops.length} crop${g.crops.length === 1 ? '' : 's'}
+          &mdash; ${g.crops.map(c => c.crop).join(', ')}</div>
       </li>`).join('')
     : '<li class="pz-empty">Nothing further to open this year.</li>';
 

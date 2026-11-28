@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Kit — What We Actually Use | JICO Ranch</title>
+<meta name="description" content="The fencing, feed, tools and garden gear we actually bought and use building JICO Ranch in Loris, South Carolina — what we paid, why we chose it, and how it is holding up.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="assets/img/favicon.png" type="image/png" sizes="512x512">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/styles.css?v=20261128b">
+<script>document.documentElement.className = 'js';</script>
+</head>
+<body>
+
+<header class="header" id="header">
+  <div class="wrap header__in">
+    <a class="brand" href="index.html" aria-label="JICO Ranch, home">
+      <img class="brand__lockup brand__lockup--ink" src="assets/img/logo-lockup-h.png"
+           alt="JICO Ranch" width="360" height="92">
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a href="index.html#animals">Animals</a>
+      <a href="index.html#garden">Garden</a>
+      <a href="planting.html">What to plant</a>
+      <a href="index.html#plan" class="nav__cta">Follow the Build</a>
+    </nav>
+  </div>
+</header>
+
+<section class="section section--tint pz">
+  <div class="wrap">
+
+    <div class="section__head reveal">
+      <div class="eyebrow-rule"></div>
+      <span class="kicker kicker--sage">Loris, South Carolina &middot; 145 acres</span>
+      <h1 class="dual dual--sage">
+        <span class="dual__lead">The kit.</span>
+        <span class="dual__main">What we actually use.</span>
+      </h1>
+      <p class="section__lead">Every bag, post and tool on this page is something we bought with our
+        own money and put to work on this place &mdash; what it cost, why we picked it over the
+        cheaper one, and how it is holding up months later. Including the ones we got wrong.</p>
+    </div>
+
+    <!-- Disclosure sits above the links, in plain words. Required by the FTC
+         and by Amazon's Associates agreement, and the right thing regardless. -->
+    <div class="kit-disc reveal">
+      <strong>Straight up about the links:</strong>
+      <span id="kitDisclosure"></span>
+    </div>
+
+    <!-- Shown until KIT has real entries in it -->
+    <div class="harvest__soon reveal" id="kitEmpty" hidden>
+      <div class="t">This fills in as we buy it</div>
+      <p>We are early &mdash; fence line, water, then animals. Rather than pad this page with gear
+        we have not touched, it stays empty until there is something real to put on it. The first
+        entries will be the fencing and water kit, because that is what is going in the ground now.</p>
+      <ul>
+        <li>What we bought</li>
+        <li>What we paid, and when</li>
+        <li>Why it beat the cheaper one</li>
+        <li>How it is holding up</li>
+        <li>What we stopped using, and why</li>
+      </ul>
+    </div>
+
+    <div id="kitList" class="reveal"></div>
+
+    <div class="pz-cta reveal">
+      <h2 class="pz-h2">We will tell you when something fails</h2>
+      <p>The useful half of a list like this is the half that did not work. When we drop a product,
+        the entry stays up and says why. Get the monthly note and you will see the switches as
+        they happen.</p>
+      <div class="pz-cta__row">
+        <a href="index.html#plan" class="btn btn--primary">Get the monthly note</a>
+        <a href="planting.html" class="btn btn--ghost">What to plant this week</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap footer__bottom" style="border-top:0">
+    <span>&copy; <span id="year">2026</span> JICO Ranch &middot; 2407 Highway 66, Loris, SC 29569</span>
+    <a href="index.html">Back to the ranch</a>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+  (function(){
+    var els = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window)){
+      els.forEach(function(e){ e.classList.add('in'); }); return;
+    }
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { rootMargin: '0px 0px -8% 0px' });
+    els.forEach(function(e){ io.observe(e); });
+    setTimeout(function(){ els.forEach(function(e){ e.classList.add('in'); }); }, 2500);
+  })();
+</script>
+<script src="assets/js/kit.js?v=20261128b" defer></script>
+</body>
+</html>
