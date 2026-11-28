@@ -68,6 +68,37 @@ const KIT_AREAS = [
      dropped true if we stopped using it. Keep the entry. Say why in `note`.
    ------------------------------------------------------------------------- */
 const KIT = [
+  /* TODO CONFIRM BEFORE THIS PAGE GOES PUBLIC
+     Amazon blocks automated reading of its product pages, so the ASINs below
+     are certain (they came straight from Chris's links) but the product names
+     are read off the URL slug and the search terms he used. Both need checking
+     against the actual listing, and neither has a price, a schedule or a
+     verdict yet -- those are his to give. Until then this is a draft. */
+  {
+    area  : "ducks",
+    item  : "Duck feed",
+    brand : "Purina duck pellets, 19% protein",     // TODO confirm exact title
+    what  : "40 lb bag",                            // TODO confirm
+    asin  : "B07VF8PQ8G"
+    // why     : TODO -- why this over the cheaper bag
+    // cadence : TODO -- how long a bag lasts, how many ducks
+    // note    : TODO -- how it is going, dated
+    // price   : TODO -- what you pay and where
+  },
+  {
+    area  : "ducks",
+    item  : "Brewer's yeast",
+    brand : "Brewer's yeast poultry supplement",    // TODO confirm exact title
+    what  : "Niacin supplement, resealable foil pouch",
+    why   : "Ducklings need far more niacin than chicks do, and a standard " +
+            "poultry feed does not carry enough of it. Short it and you get " +
+            "bowed legs you cannot undo. Brewer's yeast over the feed is the " +
+            "cheap insurance against a permanent problem.",
+    asin  : "B0D1W24CY7"
+    // cadence : TODO -- how much per bird, how often, and for how long
+    // note    : TODO -- how it is going, dated
+    // price   : TODO -- what you pay
+  }
 ];
 
 /* -------------------------------------------------------------------------
