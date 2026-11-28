@@ -39,13 +39,15 @@ const AFFILIATE = {
 /* Areas render in this order. Anything in KIT with an area not listed here
    still shows, at the bottom, so a typo loses nothing. */
 const KIT_AREAS = [
-  { key:"fencing",  title:"Fencing & water",   blurb:"The first thing that went in, and the thing everything else waits on." },
+  { key:"ducks",    title:"Ducks",             blurb:"" },
   { key:"layers",   title:"Laying hens",       blurb:"" },
   { key:"goats",    title:"Goats",             blurb:"" },
   { key:"equine",   title:"Horses & donkeys",  blurb:"" },
   { key:"pigs",     title:"Pigs",              blurb:"" },
+  { key:"bees",     title:"The bee yard",      blurb:"" },
   { key:"garden",   title:"The garden",        blurb:"" },
   { key:"orchard",  title:"The orchard",       blurb:"" },
+  { key:"fencing",  title:"Fencing & water",   blurb:"The first thing that went in, and the thing everything else waits on." },
   { key:"tools",    title:"Tools that earn their keep", blurb:"" }
 ];
 
@@ -56,7 +58,10 @@ const KIT_AREAS = [
      brand   make and model, specific enough to actually buy
      what    the spec that matters
      why     why this one and not the cheaper one
-     note    how it is holding up. DATE IT. This is the part people come for.
+     cadence how often we do it -- "refilled twice a day", "wormed every 8
+             weeks", "side-dressed at 3 and 6 weeks". Half of what people
+             came to read is the schedule, not the product.
+     note    how it is holding up. DATE IT. This is the other half.
      price   what we paid, and when
      asin    Amazon ASIN -> becomes a tagged affiliate link
      url     anything else (Tractor Supply, a co-op) -> plain link, no commission
@@ -73,6 +78,7 @@ const KIT_EXAMPLE = {
   item  : "Fence post driver",
   brand : "Rhino 2-handle manual post driver",
   what  : "17 lb, fits up to 2 3/8\" pipe",
+  cadence: "In the truck year round; heaviest use Sept-Dec on the perimeter",
   why   : "Rented a hydraulic driver for the first stretch and it was overkill " +
           "for T-posts. This does a post in about eight strikes and lives in " +
           "the truck instead of on a trailer.",
@@ -133,6 +139,7 @@ const KIT_EXAMPLE = {
           <div class="kit-brand">${l ? `<a href="${l.href}" rel="${l.rel}" target="_blank">${name}</a>` : name}${
             l ? `<span class="kit-paid">${l.paid ? 'affiliate link' : 'no commission'}</span>` : ''}</div>
           ${e.what  ? `<div class="kit-spec">${esc(e.what)}</div>` : ''}
+          ${e.cadence ? `<div class="kit-cadence"><span>How often</span>${esc(e.cadence)}</div>` : ''}
           ${e.why   ? `<p class="kit-why"><strong>Why this one.</strong> ${esc(e.why)}</p>` : ''}
           ${e.note  ? `<p class="kit-note">${esc(e.note)}</p>` : ''}
           ${e.price ? `<div class="kit-price">${esc(e.price)}</div>` : ''}
