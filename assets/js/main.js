@@ -26,7 +26,9 @@ const RANCH = {
   build: {
     status  : "Building out",
     acreage : "145 acres",
-    phase   : "Clearing, fencing and water lines",
+    // Ducks were bought and are arriving mid-December 2026. Change this to
+    // "Fencing, water lines, and the first ducks" the day they land.
+    phase   : "Fencing, water lines, first ducks this month",
     // TODO: put a real target here when you know it, e.g. "Spring 2027".
     opening : "To be announced"
   },
