@@ -34,7 +34,6 @@ The page borrows the structure the big legacy ranch sites use, adapted for agrit
 - **Season calendar** — month-by-month crop availability, current month auto-highlighted.
 - **Hero montage** — the headline sits over crossfading photos with a slow drift. Real
   footage takes over the moment `HERO_CLIPS` has anything in it.
-- **The land ribbon** (`.ribbon`) — a full-bleed three-up photo strip, no headline.
 
 ## Editing the things that change
 Open `assets/js/main.js`. Everything you'll touch is in the marked block at the very top:
@@ -184,11 +183,16 @@ DNS usually propagates in 10–60 minutes. Check with `nslookup jicoranch.com` �
 the 185.199.x.153 addresses back, not a GoDaddy parking IP.
 
 ## Removed, not deleted
-Three sections came off the page on 2026-11-28 to cut its length: the capability grid
-("everything else"), the photo gallery ("around the place") and the monthly build log
-("from the ground up"). Harvest of the Month survived and moved into the Garden section.
+Five blocks came off the page on 2026-11-28 to cut its length: the capability grid
+("everything else"), the photo gallery ("around the place"), the monthly build log
+("from the ground up"), the six "in the ground" garden cards, and the three-up land
+ribbon. Harvest of the Month survived the build log and moved into the Garden section,
+which now opens on the season calendar.
 
-Their CSS is deliberately still in `styles.css` and the eight `gallery-*.jpg` files are
-still in `assets/img/`, because the gallery was taken out *for now* — putting it back is
-a block of markup, not a rebuild. `store-eggs/honey/meat/flowers/preserves.jpg` are also
-on disk unused, held for a farm-stand gallery that does not exist yet.
+Their CSS is deliberately still in `styles.css` and their photos are still in
+`assets/img/`, because these came out *for now* — putting any of them back is a block of
+markup, not a rebuild. Currently unused on the page but kept on disk:
+`gallery-1..8.jpg`, `garden-*.jpg`, `scene-*.jpg`, and
+`store-eggs/honey/meat/flowers/preserves.jpg`. That is about half the photo set; run
+`python tools/fetch-photos.py` after deleting any of them from the manifest if you want
+the repo slimmed down.
