@@ -225,6 +225,28 @@ Amazon links get `rel="sponsored nofollow noopener"` and an "affiliate link" lab
 link itself; anything else gets "no commission". The disclosure sits above the list and
 hides itself when there is nothing to disclose.
 
+**Never publish Amazon's current price.** The Associates agreement only allows their
+pricing if it comes from their Product Advertising API and is refreshed every 24 hours,
+so a hand-typed price is a policy violation the day it goes stale. Use what *we* paid
+with a date ("$22 a bag, Nov 2026" — our purchase record, not their price), or better,
+a cost-per-use figure ("about 55c a day for 14 ducks"), which is not a price at all and
+is the more useful number anyway.
+
+### Setting up Amazon Associates
+No Amazon page or storefront is needed — you register *your* site with them and get a
+tracking ID. Apply at `affiliate-program.amazon.com`, as an individual (SSN) or as the
+business (EIN) depending on where the commission should land. You will need the tax
+interview and payment details.
+
+**Do not apply until the site is public.** Amazon reviews the site at application, and
+the clock on **3 qualifying sales within 180 days** starts the day you are accepted —
+miss it and the account closes. A `noindex` site with unlinked pages will not pass.
+
+The separate **Amazon Influencer Program** is the one that gives you an
+`amazon.com/shop/<name>` storefront; it needs a qualifying social following and is
+optional. **Amazon Business** is a third, unrelated thing — that is for *buying* as a
+business, and may be worth having on its own for feed purchasing.
+
 ## Removed, not deleted
 Five blocks came off the page on 2026-11-28 to cut its length: the capability grid
 ("everything else"), the photo gallery ("around the place"), the monthly build log

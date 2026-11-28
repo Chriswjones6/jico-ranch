@@ -62,7 +62,13 @@ const KIT_AREAS = [
              weeks", "side-dressed at 3 and 6 weeks". Half of what people
              came to read is the schedule, not the product.
      note    how it is holding up. DATE IT. This is the other half.
-     price   what we paid, and when
+     price   what WE paid and WHEN, or a cost-per-use figure. Never a current
+             Amazon price: the Associates agreement forbids displaying their
+             pricing unless it comes from their API and is refreshed every 24
+             hours, and a stale price is a policy violation. "$22 a bag, Nov
+             2026" is our own purchase record, not their price. Better still,
+             "about 55c a day for 14 ducks" -- not a price at all, and a more
+             useful number to somebody deciding whether to keep ducks.
      asin    Amazon ASIN -> becomes a tagged affiliate link
      url     anything else (Tractor Supply, a co-op) -> plain link, no commission
      dropped true if we stopped using it. Keep the entry. Say why in `note`.
